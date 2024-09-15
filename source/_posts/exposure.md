@@ -1,10 +1,8 @@
-# Exposure
+---
+title: Exposure
+---
 
 ## Taking advantage of the common to have chance in greatness.
-
-**Feb 02, 2024**
-
-**Likes:** 0
 
 ### Oxygen is really nice
 

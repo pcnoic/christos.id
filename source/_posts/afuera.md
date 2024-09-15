@@ -1,10 +1,7 @@
-# Afuera
-
+---
+title: Afuera
+---
 ## Stay focused, build faster.
-
-**Feb 02, 2024**
-
-**Likes:** 0
 
 #### Internet Junkie
 

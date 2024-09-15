@@ -1,10 +1,8 @@
-# The hallucination of hands-off volunteerism
+---
+title: Hands-off volunteerism
+---
 
 ## People are comforting their moral and ethical consciences while being misguided by big corporations and personalities whose only goal is to increase engagement.
-
-**Jan 31, 2024**
-
-**Likes:** 1
 
 People want to help to begin with. There is no doubt whatever about that. Yet, people are also lazy. That combination gives birth to **the hallucination of hands-off volunteerism.**
 

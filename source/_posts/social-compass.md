@@ -1,10 +1,8 @@
-# Social compass
+---
+title: Social compass
+---
 
 ## A manual for steering through the vast sea of social media platforms on the internet.
-
-**Jan 31, 2024**
-
-**Likes:** 0
 
 Here are 30 social media platforms with more than 100.000.000 active users as of February 2nd, 2022. Their features overlap and thus make each other redundant.
 

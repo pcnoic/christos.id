@@ -1,10 +1,10 @@
-# A few ways to build companies
+---
+title: A couple of ways to build companies
+---
 
 ## Not all companies are created equal and why the notion of creating value to succeed is wrong if you want to make it as a company.
 
 **Apr 25, 2024**
-
-**Likes:** 1
 
 When I think of a wonderland, one key aspect of this place is that companies profit from the value they’re adding (we can even accept the companies who make money by transferring value) to the world. 
 

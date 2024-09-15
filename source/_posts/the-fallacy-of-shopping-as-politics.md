@@ -1,10 +1,7 @@
-# The fallacy of shopping as politics
-
+---
+title: Shopping as politics
+---
 ## The futility of ethical consumerism in a monopolistic capitalist society
-
-**Feb 02, 2024**
-
-**Likes:** 0
 
 It's not uncommon for people to think that they can make a difference by making ethical choices as consumers. The notion of shopping as politics is inherently flawed and highlights the limitations of ethical consumerism in creating meaningful societal change. True political action requires more than just conscious consumer choices or fuelling cancel culture.
 

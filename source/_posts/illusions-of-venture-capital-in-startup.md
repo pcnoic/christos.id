@@ -1,10 +1,7 @@
-# Illusions of venture capital in startup dynamics
-
+---
+title: Illusions of venture capital
+---
 ## Don't see money if you're not serving customers.
-
-**Feb 02, 2024**
-
-**Likes:** 1
 
 I recently attended a meeting, a common occurrence these days as I spend much of my time in front of a camera, either listening to or conversing with people. I am assisting a friend in launching her first venture. To be precise, I wouldn't categorize it as a startup. Were I to complete a questionnaire, it would most likely be classified as an online business rather than a startup. In any case, during this meeting, we engaged with a competitor who is attempting to implement the same idea, likely based on very similar principles. A significant topic of discussion was venture capital. In the dynamic and often unpredictable realm of internet-based financing, the decision to pursue venture capital is laden with complexity, marked by potential unseen consequences and frequently misinterpreted motives.
 

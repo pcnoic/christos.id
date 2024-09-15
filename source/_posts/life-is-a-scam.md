@@ -1,10 +1,8 @@
-# Life is a scam
+---
+title: Life might be a scam
+---
 
 ## Life is a profound scam. Although, it's - usually - worth falling for.
-
-**Jan 31, 2024**
-
-**Likes:** 1
 
 Before people call me a pessimist follower of [Arthur Schopenhauer](https://en.wikipedia.org/wiki/Arthur_Schopenhauer), let me clear up my position. I **do** believe that life is worth living. I would **never** try to convince someone to take his own or another person's life just because he thinks that it’s unworthy of existence. 
 

@@ -1,10 +1,8 @@
-# The king must be undressed
+---
+title: The undressing of the king
+---
 
 ## For the last two decades Amazon, Microsoft, Google and Alibaba have been amassing the world's compute. Now they own 67% of it. If we are to build knock-off humans, where do we go from here?
-
-**Apr 11, 2024**
-
-**Likes:** 1
 
 People are trying to build humans. Some are trying their luck with tubes, while others are more interested in the amalgamation of software and hardware. Regardless, both need a lot of compute. 
 

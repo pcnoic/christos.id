@@ -1,10 +1,8 @@
-# The three games
+---
+title: The three games
+---
 
 ## How to play in a finite sandbox.
-
-**Feb 02, 2024**
-
-**Likes:** 0
 
 In about 50 years, or maybe less, we'll probably find a way to automate love, outsource wisdom, and even find a substitute for nature. What would be left for you to do then? Barring existential risks, these are facts. So, what game are you playing?
 

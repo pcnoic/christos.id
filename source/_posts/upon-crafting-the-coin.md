@@ -1,10 +1,8 @@
-# Upon crafting the coin
+---
+title: Upon crafting the coin
+---
 
 ## So where does money come from? There’s a literal answer to this question, but in a more abstract sense, it's tangible value.
-
-**Mar 27, 2024**
-
-**Likes:** 1
 
 [![](https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff62d003c-4ad1-4cd7-aa30-e3b639997c0e_800x533.jpeg)](https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff62d003c-4ad1-4cd7-aa30-e3b639997c0e_800x533.jpeg)
 

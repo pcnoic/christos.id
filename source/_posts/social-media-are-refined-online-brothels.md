@@ -1,10 +1,8 @@
-# Social media are refined online brothels
+---
+title: Social media operate similar to brothels
+---
 
 ## I don’t want to waste my time. Become another casualty of society. I’ll never fall in line. Become another victim of your conformity and back down. – Fat Lip, Sum 41
-
-**Jan 31, 2024**
-
-**Likes:** 0
 
 The subtitle of this post is a song from 2001. I was two years old. I have a picture from that era where I slam a keyboard.
 

@@ -1,10 +1,7 @@
-# The model of free exit
-
+---
+title: The model of free exit
+---
 ## Ameliorating the hardship of operating a company through ethical corporate dictatorship
-
-**Feb 02, 2024**
-
-**Likes:** 1
 
 > He who has never learned to obey cannot be a good commander. - Aristotle
 > 
