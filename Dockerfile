@@ -1,4 +1,4 @@
-FROM ruby:3.2-alpine
+FROM ruby:3.2-alpine AS builder
 
 RUN apk add --no-cache \
     build-base \
@@ -14,6 +14,14 @@ RUN gem install bundler:2.7.1 && bundle install
 
 COPY . .
 
-EXPOSE 4000
+RUN bundle exec jekyll build
 
-CMD ["bundle", "exec", "jekyll", "serve", "--host", "0.0.0.0", "--port", "4000", "--livereload"]
+# ---
+
+FROM nginx:alpine
+
+COPY --from=builder /app/_site /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
