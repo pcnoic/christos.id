@@ -1,4 +1,4 @@
-FROM ruby:3.1-alpine
+FROM ruby:3.2-alpine
 
 RUN apk add --no-cache \
     build-base \
@@ -10,7 +10,7 @@ WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
 
-RUN bundle install
+RUN gem install bundler:2.7.1 && bundle install
 
 COPY . .
 
