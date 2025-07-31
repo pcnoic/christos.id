@@ -1,0 +1,25 @@
+entries:
+  - title: I have worked for the following companies as an engineer, <br> primarily in operations and infrastructure.
+    entries:
+      - title: Comidor
+        url: https://comidor.com
+      - title: Alfaview
+        url: https://alfaview.com
+      - title: Budibase
+        url: https://budibase.com
+      - title: Bloomreach
+        url: https://bloomreach.com
+      - title: Google (interned)
+        url: https://google.com
+      - title: Flightcast
+        url: https://flightcast.com
+
+  - title: Founded Podbeam, a podcasting platform backed by <a href="https://pioneer.app">Pioneer</a>
+
+  - title: I am the host of the following podcasts
+    entries:
+      - title: Fabulas de Machina
+        url: https://fabulasdemachina.com
+      - title: The Capital Archive
+        url: https://thecapitalarchive.org
+      - title: Folk
