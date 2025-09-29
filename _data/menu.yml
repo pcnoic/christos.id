@@ -1,5 +1,5 @@
 entries:
-  - title: I have worked for the following companies as an engineer, <br> primarily in operations and infrastructure.
+  - title: I have worked for the following companies, <br> primarily in systems and infrastructure.
     entries:
       - title: Comidor
         url: https://comidor.com
@@ -13,6 +13,10 @@ entries:
         url: https://google.com
       - title: Flightcast
         url: https://flightcast.com
+      - title: Adia Health
+        url: https://adia.ai
+      - title: Clutch
+        url: https://clutch.com
 
   - title: Founded Podbeam, a podcasting platform backed by <a href="https://pioneer.app">Pioneer</a>
 
@@ -23,3 +27,10 @@ entries:
       - title: The Capital Archive
         url: https://thecapitalarchive.org
       - title: Folk
+  
+  - title: Maintaing the following in my spare time
+    entries:
+      - title: PDFLabeler (PDF relabeling tool using LLMs)
+        url: https://pdflabeler.com
+      - title: RedGreen (Personal finance dashboard)
+        url: https://redgreen.app
