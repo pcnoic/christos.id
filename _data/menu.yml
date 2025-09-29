@@ -27,7 +27,7 @@ entries:
       - title: The Capital Archive
         url: https://thecapitalarchive.org
       - title: Folk
-  
+
   - title: Maintaining the following in my spare time
     entries:
       - title: PDFLabeler (PDF relabeling tool using LLMs)
