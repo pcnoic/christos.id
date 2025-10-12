@@ -1,5 +1,5 @@
 entries:
-  - title: Ops person. Software janitor.
+  - title: Currently working on tools for operations teams
 
   - title: blog
     post_list:
@@ -8,7 +8,7 @@ entries:
       show_more_text: "see all posts..."
       show_more_url: /archive.html
 
-  - title: I have worked for the following companies, primarily in systems and infrastructure
+  - title: work
     entries:
       - title: Comidor
         url: https://comidor.com
@@ -27,9 +27,11 @@ entries:
       - title: Clutch
         url: https://clutch.com
 
-  - title: Founded Podbeam, a podcasting platform backed by <a href="https://pioneer.app">Pioneer</a>
+  - title: founded
+    entries:
+      - title: Podbeam, a podcasting platform backed by <a href="https://pioneer.app">Pioneer</a>, amongst others
 
-  - title: I am the host of the following podcasts
+  - title: podcasts
     entries:
       - title: Fabulas de Machina
         url: https://fabulasdemachina.com
@@ -37,11 +39,9 @@ entries:
         url: https://thecapitalarchive.org
       - title: Folk
 
-  - title: Maintaining the following in my spare time
+  - title: projects
     entries:
-      - title: PDFLabeler (PDF relabeling tool using LLMs)
+      - title: PDFLabeler
         url: https://pdflabeler.com
-      - title: RedGreen (Personal finance dashboard)
-        url: https://redgreen.app
 
   - title: <a href="mailto:c@christos.id">c@christos.id</a>
