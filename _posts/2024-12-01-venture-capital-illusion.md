@@ -1,7 +1,7 @@
 ---
 layout: post
 title: the illusion of venture capital in startup dynamics
-date: 2024-01-12
+date: 2024-12-01
 ---
 
 ### the meeting
