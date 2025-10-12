@@ -1,5 +1,14 @@
 entries:
-  - title: I have worked for the following companies, <br> primarily in systems and infrastructure.
+  - title: Ops person. Software janitor.
+
+  - title: blog
+    post_list:
+      limit: 5
+      show_more: true
+      show_more_text: "see all posts..."
+      show_more_url: /archive.html
+
+  - title: I have worked for the following companies, primarily in systems and infrastructure
     entries:
       - title: Comidor
         url: https://comidor.com
@@ -34,3 +43,5 @@ entries:
         url: https://pdflabeler.com
       - title: RedGreen (Personal finance dashboard)
         url: https://redgreen.app
+
+  - title: <a href="mailto:c@christos.id">c@christos.id</a>
