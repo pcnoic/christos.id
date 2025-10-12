@@ -1,15 +1,10 @@
 ---
-title: An implementation of the Paxos algorithm in Rust
-description: A robust implementation of Paxos algorithms in Rust, designed for solving consensus in a network of unreliable processors.
-author: Christos Alexiou
+layout: post
+title: an implementation of the paxos algorithm in rust
 date: 2024-01-05
-tags:
-  - paxos
-  - algorithms
-  - consensus
 ---
 
-### Why Paxos?
+### why paxos?
 
 Paxos is a Greek island in the Ionian Sea, lying just south of Corfu. I've never been, but I read extremely positive things. Now, the Paxos family of protocols, designed for solving consensus in a network of unreliable processors, was named after that small island, some miles of Greece's west coast. This name choice is attributed to Leslie Lamport, the creator of the Paxos protocol. There's an interesting backstory to this naming.
 
@@ -17,7 +12,7 @@ Lamport initially presented the protocol in a paper titled *"The Part-Time Parli
 
 The narrative style of the original paper, however, initially led to the protocol being not taken as seriously as Lamport had hoped. It took some time for the computer science community to appreciate the elegance and robustness of the Paxos protocol, which is now considered a fundamental contribution to the field of distributed systems.
 
-### Reinventing the parable
+### reinventing the parable
 
 Imagine you're part of a football team. Following practice, the team enjoys dining out together. Typically, the team debates between pizza and burgers. You prefer everyone choosing the same dining spot post-practice for a more enjoyable experience. Thus, there's a need for consensus on the field about the dining choice – be it burgers or pizza.
 
@@ -37,13 +32,13 @@ For example, if an acceptor favors burgers, they notify the learner that the tea
 
 It's then up to the learner to announce the team's majority choice based on acceptors' messages. The algorithm continues through multiple iterations until the learner declares a consensus.
 
-### Foreword
+### foreword
 
 We won't discuss the "why" and the steps the algorithm goes through to reach consensus. If you are interested in why the Paxos Algorithm works, you can look at a great brief introduction in this [Google Tech Talk](https://www.youtube.com/watch?v=d7nAGI_NZPk).
 
 Secondly, I assume that the proof and the theory works, and this article will be mainly about the implementation.
 
-### Introduction
+### introduction
 
 In the Paxos algorithm, three roles are crucial: the proposer, the acceptors, and the learner.
 
@@ -86,7 +81,7 @@ sequenceDiagram
     P->>L: 5. Hey, we have an accepted value 3!
 ```
 
-### Prepare phase
+### prepare phase
 
 Proposers within each group select a unique proposal number and dispatch a preparatory request to the acceptors within the system. It is not necessary for every acceptor to receive this message; a majority—or a quorum—will suffice for the algorithm to advance.
 
@@ -120,7 +115,7 @@ sequenceDiagram
     end
 ```
 
-### Accept Phase
+### accept phase
 
 When a proposer garners a promise from the majority, it scrutinizes the responses for any acceptances. If an accepted message is present, the proposer adopts the message and reissues the acceptance request to the acceptors.
 
@@ -157,15 +152,15 @@ sequenceDiagram
 ```
 
 
-### Implementation
+### implementation
 
-#### Constructing the models
+#### constructing the models
 
 At the heart of the Paxos algorithm lies the inter-node communication. Thus, it seems most natural to conceptualize each role as an object.
 
 Given that the algorithm details the interactions among proposers, acceptors, and learners, employing an actor system emerges as the most straightforward approach for crafting the algorithm. This would involve establishing three distinct actors, each encapsulating their respective logic and state.
 
-#### Immutability in the State Management
+#### immutability in the state management
 
 Implementing an inherently immutable system presents challenges since the algorithm demands continuous modifications to the internal state.
 
@@ -173,11 +168,11 @@ Object-oriented programming provides a framework for managing state changes with
 
 For example, an instance of an acceptor could maintain a variable like `max_id` as part of its mutable state, updating this `max_id` upon receiving a prepare message with a superior id number.
 
-#### Domain Models
+#### domain models
 
 Beginning with each of the domain models, the most straightforward method is to conceptualize what is required by the *proposer*, *acceptor*, and *learner*.
 
-##### Proposer Models
+##### proposer models
 
 The proposer will be composed of a value, a proposal number, and a quorum size. The proposal number must be unique and incrementally increasing. A typical method for generating this proposal number combines an identifier with a machine-specific ID to guarantee uniqueness.
 
@@ -218,7 +213,7 @@ impl PartialEq for ProposalId {
 
 The quorum size is the number of nodes in the system.
 
-##### Acceptor Model
+##### acceptor model
 
 The acceptor is composed of a potentially promised proposal number as well as the proposal number and value that it has agreed to. Given that these two elements may not always be present, it would be prudent to consider them as optional.
 
@@ -230,7 +225,7 @@ struct Acceptor<V> {
 }
 ```
 
-##### Learner Model
+##### learner model
 
 The learner is tasked with monitoring all the confirmations of acceptance it acquires and verifying whether the count of a particular value surpasses the majority threshold. It must maintain a mapping that correlates each accepted value with its occurrence frequency.
 
@@ -253,7 +248,7 @@ Typically, in object-oriented programming (OOP), functions are encapsulated with
 
 In a functional approach adapted for Rust, I have chosen to isolate these functions into a distinct object, named `Ops`, which interacts with the proposer. This separation of the model and its operations allows for a clearer division of concerns, particularly regarding state mutation.
 
-#### Messages
+#### messages
 
 We have four types of messages that are needed for each of the two-phase algorithm that we need to think about:
 
@@ -288,7 +283,7 @@ enum Message<V> {
 
 We are using an `Option` type to embed the `AcceptedValue` in the `Accept` message since an `Acceptor` has, most likely, not accepted a proposal when responsing to a promise request.
 
-#### Action
+#### action
 
 Implementing Paxos or similar consensus algorithms with pure functions encourages the consolidation of all IO-related side effects into a single component.
 
@@ -314,7 +309,7 @@ enum Action<V> {
 }
 ```
 
-#### Message Handling
+#### message handling
 
 Upon isolating the algorithm's non-pure effects, we have to manage the core state of the algorithm without resorting to mutation.
 
@@ -389,7 +384,7 @@ The approach we took renders the central logic of the algorithm state-independen
 
 Pure state management has been established. This simplifies the testing and debugging of the algorithm. Crucially, the execution of the `Action` method can be delegated to external functions, which are responsible for invoking those side-effect operations outside the algorithm's scope.
 
-### Epilogue
+### epilogue
 
 We've implemented the Paxos algorithm in a purely functional style. This task presents notable challenges, especially considering the inherently stateful nature of the algorithm as described in its original paper. The algorithm requires meticulous tracking of each state to achieve consensus.
 
