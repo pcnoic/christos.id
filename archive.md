@@ -1,4 +1,4 @@
 ---
 layout: archive
-title: blog archive
+title: writing archive
 ---
