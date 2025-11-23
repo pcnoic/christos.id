@@ -20,6 +20,8 @@
   <link rel="manifest" href="/site.webmanifest">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}" />
+  {% if page.katex %}
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.css" integrity="sha384-OH8qNTHoMMVNVcKdKewlipV4SErXqccxxlg6HC9Cwjr5oZu2AdBej1TndeCirael" crossorigin="anonymous">
+  {% endif %}
 
 </head>

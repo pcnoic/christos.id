@@ -1,14 +1,21 @@
 // -------------- THEME SWITCHER -------------- //
 @mixin dark-appearance {
-  filter: invert(1);
-  img {
-    filter: invert(1);
-
-    &.ioda { filter: invert(0); }
+  html, body {
+    background: #050608;
+    color: #e5e5e5;
   }
-  .emoji { filter: invert(1); }
-  iframe {
-    filter: invert(1);
+
+  a {
+    color: #8cc0ff;
+  }
+
+  code {
+    background: #111;
+    color: #f5f5f5;
+  }
+
+  blockquote {
+    border-left-color: #e5e5e5;
   }
 }
 
@@ -29,9 +36,9 @@ html { height: 100%; scroll-behavior: smooth; }
 
 body {
   color: black;
-  font-family: monospace;
+  font-family: "Fira Code", "JetBrains Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 16px;
-  line-height: 1.4;
+  line-height: 1.6;
   margin: 0;
   min-height: 100%;
   overflow-wrap: break-word;
@@ -43,10 +50,16 @@ body {
   opacity: 0.7;
 }
 
+.back-link {
+  display: inline-block;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 h1 { 
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  font-size: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
   font-weight: bold;
 }
 
@@ -77,12 +90,21 @@ article {
   }
 }
 
-*:target { background: yellow; }
+*:target {
+  background: #fff59d;
+  transition: background 0.3s ease;
+}
 
 .w {
   max-width: 640px;
   margin: 0 auto;
   padding: 4rem 2rem;
+}
+
+@media (max-width: 480px) {
+  .w {
+    padding: 3rem 1.5rem;
+  }
 }
 
 hr {
@@ -103,7 +125,7 @@ table, th, td {
 
 code {
   color: white;
-  background: black;
+  background: #111;
 }
 
 div.highlighter-rouge code {
@@ -115,8 +137,9 @@ div.highlighter-rouge code {
 
 blockquote {
   font-style: italic;
-  border: thin solid black;
-  padding: 1rem;
+  border-left: 3px solid black;
+  padding: 0.75rem 1rem;
+  margin: 1.5rem 0;
 
   p { margin: 0; }
 }
@@ -125,4 +148,24 @@ img {
   max-width: 100%;
   display: block;
   margin: 0 auto;
+}
+
+.post-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.post-list li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.4rem 0;
+}
+
+.post-date {
+  opacity: 0.7;
+}
+
+.post-title {
+  text-decoration: underline;
 }
