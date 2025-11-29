@@ -6,37 +6,21 @@ date: 2024-01-05
 
 ### why paxos?
 
-Paxos is a Greek island in the Ionian Sea, lying just south of Corfu. I've never been, but I read extremely positive things. Now, the Paxos family of protocols, designed for solving consensus in a network of unreliable processors, was named after that small island, some miles of Greece's west coast. This name choice is attributed to Leslie Lamport, the creator of the Paxos protocol. There's an interesting backstory to this naming.
-
-Lamport initially presented the protocol in a paper titled *"The Part-Time Parliament"* which was written in a parable-like style. In this paper, he described a fictional parliament on the island of Paxos, which had developed a highly reliable way of reaching consensus despite the fact that its members were frequently absent. This allegorical presentation was intended to make the concepts of the protocol—which involves complex mechanisms for ensuring that a network of nodes can agree on a single value despite failures—more understandable and engaging.
-
-The narrative style of the original paper, however, initially led to the protocol being not taken as seriously as Lamport had hoped. It took some time for the computer science community to appreciate the elegance and robustness of the Paxos protocol, which is now considered a fundamental contribution to the field of distributed systems.
+Paxos is a Greek island in the Ionian Sea, lying just south of Corfu. I've never been, but I read some good things. Now, the Paxos family of protocols, designed for solving consensus in a network of unreliable processors, was named after that small island, some miles of Greece's west coast. This name choice is attributed to Leslie Lamport, the creator of the Paxos protocol. There's an interesting backstory to this naming. Lamport initially presented the protocol in a paper titled *"The Part-Time Parliament"* which was written in a parable-like style. In this paper, he described a fictional parliament on the island of Paxos, which had developed a highly reliable way of reaching consensus despite the fact that its members were frequently absent. This allegorical presentation was intended to make the concepts of the protocol—which involves complex mechanisms for ensuring that a network of nodes can agree on a single value despite failures—more understandable and engaging. The narrative style of the original paper, however, initially led to the protocol being not taken as seriously as Lamport had hoped. It took some time for the computer science community to appreciate the elegance and robustness of the Paxos protocol, which is now considered a fundamental contribution to the field of distributed systems.
 
 ### reinventing the parable
 
-Imagine you're part of a football team. Following practice, the team enjoys dining out together. Typically, the team debates between pizza and burgers. You prefer everyone choosing the same dining spot post-practice for a more enjoyable experience. Thus, there's a need for consensus on the field about the dining choice – be it burgers or pizza.
-
-However, a challenge arises: _the coach left early._ Post-practice fatigue and hunger make the team easily distracted, desiring a quick decision. Additionally, shouting over the team's loud discussions at the field won't work; your suggestions could be drowned out. You might think:
+Imagine you're part of a football team. Following practice, the team enjoys dining out together. Typically, the team debates between pizza and burgers. You prefer everyone choosing the same dining spot post-practice for a more enjoyable experience. Thus, there's a need for consensus on the field about the dining choice – be it burgers or pizza. However, a challenge arises: _the coach left early._ Post-practice fatigue and hunger make the team easily distracted, desiring a quick decision. Additionally, shouting over the team's loud discussions at the field won't work; your suggestions could be drowned out. You might think:
 
 > Peer-to-peer (or person-to-person) communication is the sole method to reach a unanimous decision.
 
 This scenario mirrors challenges in distributed systems, where numerous servers must agree on common events or information in an asynchronous setting.
 
-Paxos, an early paper on distributed consensus algorithms, involves multiple rounds to help servers agree on a value proposed by a group member. This algorithm employs peer-to-peer communication, with each peer playing one of three roles: *proposer*, *acceptor*, or *learner*. These roles can coexist on a single server, meaning a server can _simultaneously_ be a proposer, acceptor, and learner.
-
-Returning to the football analogy, for simplicity, let's separate these roles: half the team as proposers, a quarter as acceptors, and a quarter as learners.
-
-Proposers suggest dining locations to acceptors, who evaluate these suggestions based on certain criteria. Once an acceptor favors a majority of proposals, they inform the learner.
-
-For example, if an acceptor favors burgers, they notify the learner that the team majority prefers burgers. Interestingly, another acceptor might favor pizza, informing the learner of a preference for pizza.
-
-It's then up to the learner to announce the team's majority choice based on acceptors' messages. The algorithm continues through multiple iterations until the learner declares a consensus.
+Paxos, an early paper on distributed consensus algorithms, involves multiple rounds to help servers agree on a value proposed by a group member. This algorithm employs peer-to-peer communication, with each peer playing one of three roles: *proposer*, *acceptor*, or *learner*. These roles can coexist on a single server, meaning a server can _simultaneously_ be a proposer, acceptor, and learner. Returning to the football analogy, for simplicity, let's separate these roles: half the team as proposers, a quarter as acceptors, and a quarter as learners. Proposers suggest dining locations to acceptors, who evaluate these suggestions based on certain criteria. Once an acceptor favors a majority of proposals, they inform the learner. For example, if an acceptor favors burgers, they notify the learner that the team majority prefers burgers. Interestingly, another acceptor might favor pizza, informing the learner of a preference for pizza. It's then up to the learner to announce the team's majority choice based on acceptors' messages. The algorithm continues through multiple iterations until the learner declares a consensus.
 
 ### foreword
 
-We won't discuss the "why" and the steps the algorithm goes through to reach consensus. If you are interested in why the Paxos Algorithm works, you can look at a great brief introduction in this [Google Tech Talk](https://www.youtube.com/watch?v=d7nAGI_NZPk).
-
-Secondly, I assume that the proof and the theory works, and this article will be mainly about the implementation.
+We won't discuss the "why" and the steps the algorithm goes through to reach consensus. If you are interested in why the Paxos Algorithm works, you can look at a great brief introduction in this [Google Tech Talk](https://www.youtube.com/watch?v=d7nAGI_NZPk). I am also making the assumption that the proof and the theory works, and this article will be mainly about the implementation.
 
 ### introduction
 
@@ -83,13 +67,7 @@ sequenceDiagram
 
 ### prepare phase
 
-Proposers within each group select a unique proposal number and dispatch a preparatory request to the acceptors within the system. It is not necessary for every acceptor to receive this message; a majority—or a quorum—will suffice for the algorithm to advance.
-
-Upon receipt of the request, an acceptor will evaluate it against the highest proposal number it has encountered thus far. Should the new proposal's number exceed the current highest, the acceptor will acknowledge its superiority and respond with a positive message, indicating, "I acknowledge that your proposal number is greater than any I have previously recorded, and I will therefore consider it."
-
-In instances where the acceptor has already committed to a proposal, its response will be similar but with an addition, "While your proposal number is greater, I have already committed to a proposal. I will include the number and value of that proposal in my response."
-
-Should an acceptor receive a proposal bearing a number less than the highest it has already considered, it will disregard the proposal outright.
+Proposers within each group select a unique proposal number and dispatch a preparatory request to the acceptors within the system. It is not necessary for every acceptor to receive this message; a majority—or a quorum—will suffice for the algorithm to advance. Upon receipt of the request, an acceptor will evaluate it against the highest proposal number it has encountered thus far. Should the new proposal's number exceed the current highest, the acceptor will acknowledge its superiority and respond with a positive message, indicating, "I acknowledge that your proposal number is greater than any I have previously recorded, and I will therefore consider it." In instances where the acceptor has already committed to a proposal, its response will be similar but with an addition, "While your proposal number is greater, I have already committed to a proposal. I will include the number and value of that proposal in my response." Should an acceptor receive a proposal bearing a number less than the highest it has already considered, it will disregard the proposal outright.
 
 ```mermaid
 sequenceDiagram
@@ -117,17 +95,7 @@ sequenceDiagram
 
 ### accept phase
 
-When a proposer garners a promise from the majority, it scrutinizes the responses for any acceptances. If an accepted message is present, the proposer adopts the message and reissues the acceptance request to the acceptors.
-
-If the proposer fails to secure a response from a majority of the acceptors to whom it has broadcasted its proposal, it infers that the proposal number was insufficiently high. Consequently, the proposer formulates a higher proposal number and redistributes it to the acceptors.
-
-Upon receiving affirmative replies from a majority of the acceptors, the proposer notifies the learner that consensus has been achieved.
-
-Should an acceptor receive an acceptance request with a proposal number that matches its own promise, it will validate the proposer's value as accepted and communicate this confirmation back to the proposer.
-
-Conversely, if an acceptor is presented with an acceptance request bearing a proposal number inferior to that of its prepared promise, the acceptor will disregard the request.
-
-From the learner's perspective, the reception of a consensual value from the majority signifies that consensus has been established.
+When a proposer garners a promise from the majority, it scrutinizes the responses for any acceptances. If an accepted message is present, the proposer adopts the message and reissues the acceptance request to the acceptors. If the proposer fails to secure a response from a majority of the acceptors to whom it has broadcasted its proposal, it infers that the proposal number was insufficiently high. Consequently, the proposer formulates a higher proposal number and redistributes it to the acceptors. Upon receiving affirmative replies from a majority of the acceptors, the proposer notifies the learner that consensus has been achieved. Should an acceptor receive an acceptance request with a proposal number that matches its own promise, it will validate the proposer's value as accepted and communicate this confirmation back to the proposer. Conversely, if an acceptor is presented with an acceptance request bearing a proposal number inferior to that of its prepared promise, the acceptor will disregard the request. From the learner's perspective, the reception of a consensual value from the majority signifies that consensus has been established.
 
 ```mermaid
 sequenceDiagram
@@ -156,17 +124,11 @@ sequenceDiagram
 
 #### constructing the models
 
-At the heart of the Paxos algorithm lies the inter-node communication. Thus, it seems most natural to conceptualize each role as an object.
-
-Given that the algorithm details the interactions among proposers, acceptors, and learners, employing an actor system emerges as the most straightforward approach for crafting the algorithm. This would involve establishing three distinct actors, each encapsulating their respective logic and state.
+At the heart of the Paxos algorithm lies the inter-node communication. Thus, it seems most natural to conceptualize each role as an object. Given that the algorithm details the interactions among proposers, acceptors, and learners, employing an actor system emerges as the most straightforward approach for crafting the algorithm. This would involve establishing three distinct actors, each encapsulating their respective logic and state.
 
 #### immutability in the state management
 
-Implementing an inherently immutable system presents challenges since the algorithm demands continuous modifications to the internal state.
-
-Object-oriented programming provides a framework for managing state changes within proposers, acceptors, and learners. Within each phase, state mutation can occur within the respective object instances.
-
-For example, an instance of an acceptor could maintain a variable like `max_id` as part of its mutable state, updating this `max_id` upon receiving a prepare message with a superior id number.
+Implementing an inherently immutable system presents challenges since the algorithm demands continuous modifications to the internal state. sObject-oriented programming provides a framework for managing state changes within proposers, acceptors, and learners. Within each phase, state mutation can occur within the respective object instances. For example, an instance of an acceptor could maintain a variable like `max_id` as part of its mutable state, updating this `max_id` upon receiving a prepare message with a superior id number.
 
 #### domain models
 
@@ -227,11 +189,7 @@ struct Acceptor<V> {
 
 ##### learner model
 
-The learner is tasked with monitoring all the confirmations of acceptance it acquires and verifying whether the count of a particular value surpasses the majority threshold. It must maintain a mapping that correlates each accepted value with its occurrence frequency.
-
-In this mapping, the accepted value serves as the key, while the associated count represents the value. Determining the majority requires the learner to be aware of the quorum size. Additionally, the learner must have a mechanism to select a value once it achieves a majority.
-
-Consequently, the learner's attributes will include the quorum size, a record of the tally of accepted values to date, and the ultimately selected value once a majority is established.
+The learner is tasked with monitoring all the confirmations of acceptance it acquires and verifying whether the count of a particular value surpasses the majority threshold. It must maintain a mapping that correlates each accepted value with its occurrence frequency. In this mapping, the accepted value serves as the key, while the associated count represents the value. Determining the majority requires the learner to be aware of the quorum size. Additionally, the learner must have a mechanism to select a value once it achieves a majority. Consequently, the learner's attributes will include the quorum size, a record of the tally of accepted values to date, and the ultimately selected value once a majority is established.
 
 ```rust
 use std::collections::HashMap;
@@ -244,9 +202,7 @@ struct Learner<V> {
 }
 ```
 
-Typically, in object-oriented programming (OOP), functions are encapsulated within the model, and these functions directly mutate the model's state.
-
-In a functional approach adapted for Rust, I have chosen to isolate these functions into a distinct object, named `Ops`, which interacts with the proposer. This separation of the model and its operations allows for a clearer division of concerns, particularly regarding state mutation.
+Typically, in object-oriented programming (OOP), functions are encapsulated within the model, and these functions directly mutate the model's state. In a functional approach adapted for Rust, I have chosen to isolate these functions into a distinct object, named `Ops`, which interacts with the proposer. This separation of the model and its operations allows for a clearer division of concerns, particularly regarding state mutation.
 
 #### messages
 
@@ -285,13 +241,7 @@ We are using an `Option` type to embed the `AcceptedValue` in the `Accept` messa
 
 #### action
 
-Implementing Paxos or similar consensus algorithms with pure functions encourages the consolidation of all IO-related side effects into a single component.
-
-There are various strategies for relegating IO operations to the periphery of the system. A straightforward method involves transforming operations into values.
-
-In this vein, our implementation will introduce an `Action` type. This `Action` type will serve as a value representing any non-pure side effects mandated by the protocol.
-
-For example, in the context of Paxos, essential side effects include transmitting messages to other machines and processes. To accommodate this, the `Action` type will encompass functionalities like `Broadcast` and `Send`, which enable the proposer to communicate with either the acceptor or learner groups.
+Implementing Paxos or similar consensus algorithms with pure functions encourages the consolidation of all IO-related side effects into a single component. There are various strategies for relegating IO operations to the periphery of the system. A straightforward method involves transforming operations into values. In this vein, our implementation will introduce an `Action` type. This `Action` type will serve as a value representing any non-pure side effects mandated by the protocol. For example, in the context of Paxos, essential side effects include transmitting messages to other machines and processes. To accommodate this, the `Action` type will encompass functionalities like `Broadcast` and `Send`, which enable the proposer to communicate with either the acceptor or learner groups.
 
 
 ```rust
@@ -311,15 +261,7 @@ enum Action<V> {
 
 #### message handling
 
-Upon isolating the algorithm's non-pure effects, we have to manage the core state of the algorithm without resorting to mutation.
-
-Rust does not have a built-in `State` monad like in some functional languages. The idea is to have functions that take the current state and return a new state along with some result. This concept is akin to the `State` monad in functional programming, where a function takes a state, manipulates it, and returns a new state and a result.
-
-For those unfamiliar with State monads, I recommend exploring foundational concepts in functional programming to grasp this approach.
-
-Therefore, we can design functions in Rust that effectively take a `Proposer` and return a tuple `(Proposer, Action)`. This encapsulates the state transition without direct mutation.
-
-To streamline the implementation, I have organized the operations into three distinct modules: `ProposerOps`, `AcceptorOps`, and `LearnerOps`. This division mirrors the separation of operations in actor systems or object-oriented designs, where each role's operations are contained within its respective module. Such a structure lends modularity and clarity to the code.
+Upon isolating the algorithm's non-pure effects, we have to manage the core state of the algorithm without resorting to mutation. Rust does not have a built-in `State` monad like in some functional languages. The idea is to have functions that take the current state and return a new state along with some result. This concept is akin to the `State` monad in functional programming, where a function takes a state, manipulates it, and returns a new state and a result. For those unfamiliar with State monads, I recommend exploring foundational concepts in functional programming to grasp this approach. Therefore, we can design functions in Rust that effectively take a `Proposer` and return a tuple `(Proposer, Action)`. This encapsulates the state transition without direct mutation. To streamline the implementation, I have organized the operations into three distinct modules: `ProposerOps`, `AcceptorOps`, and `LearnerOps`. This division mirrors the separation of operations in actor systems or object-oriented designs, where each role's operations are contained within its respective module. Such a structure lends modularity and clarity to the code.
 
 ```rust
 trait LearnerOps<V> {
@@ -380,16 +322,8 @@ fn send_proposal<S, V, A>(state: S, value: V) -> (S, A);
 - `V` represents the value type associated with the proposal.
 - `A` represents the action type (e.g., `Action`).
 
-The approach we took renders the central logic of the algorithm state-independent – it remains unconcerned with the internal states and processes of each machine.
-
-Pure state management has been established. This simplifies the testing and debugging of the algorithm. Crucially, the execution of the `Action` method can be delegated to external functions, which are responsible for invoking those side-effect operations outside the algorithm's scope.
+The approach we took renders the central logic of the algorithm state-independent – it remains unconcerned with the internal states and processes of each machine. Pure state management has been established. This simplifies the testing and debugging of the algorithm. Crucially, the execution of the `Action` method can be delegated to external functions, which are responsible for invoking those side-effect operations outside the algorithm's scope.
 
 ### epilogue
 
-We've implemented the Paxos algorithm in a purely functional style. This task presents notable challenges, especially considering the inherently stateful nature of the algorithm as described in its original paper. The algorithm requires meticulous tracking of each state to achieve consensus.
-
-However, our strategy involved bifurcating the algorithm into two distinct components – the impure functions and the core state management.
-
-One of the most significant benefits of this separation between IO operations and core state management in the algorithm is the enhanced testability it offers, even in concurrent environments.
-
-We strive to render the message handling logic as state-independent as possible. This means that each operation can be completed without relying on the internal states of any machine or process.
+We've implemented the Paxos algorithm in a purely functional style. This task presents notable challenges, especially considering the inherently stateful nature of the algorithm as described in its original paper. The algorithm requires meticulous tracking of each state to achieve consensus. However, our strategy involved bifurcating the algorithm into two distinct components – the impure functions and the core state management. One of the most significant benefits of this separation between IO operations and core state management in the algorithm is the enhanced testability it offers, even in concurrent environments. We strive to render the message handling logic as state-independent as possible. This means that each operation can be completed without relying on the internal states of any machine or process.

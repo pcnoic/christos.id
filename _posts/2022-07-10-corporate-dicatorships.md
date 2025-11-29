@@ -6,60 +6,16 @@ date: 2022-07-10
 
 > He who has never learned to obey cannot be a good commander - Aristotle
 
-Companies are a source of binding standards. Until (if ever) they become part of public discourse, these standards will remain arbitrary and anti-democratic, because they go unchecked. This form of esoteric government remains “private” in the sense that those affected by its decisions cannot question the legitimacy of those decisions and are required to submit to this arbitrary power.
+Companies are a source of binding standards. Until (if ever) they become part of public discourse, these standards will remain arbitrary and anti-democratic, because they go unchecked. This form of esoteric government remains “private” in the sense that those affected by its decisions cannot question the legitimacy of those decisions and are required to submit to this arbitrary power. The notion of government has always gone hand in hand with questions regarding its legitimacy. The idea of creating a parallel between the decision-making structures of the State and those of the company in order to highlight the tension between our, relatively, democratic principles and the subordination endured by employees is not new. The "new feudalism" that was being established in factories as early as the 1830s became the target of the socialist party who advocated for "brining the Republic down into the workshop". Catholics of the "Le Sillon" movement in the late 19th century stated that it is not possible to "have the republic in society while the monarchy remains in the company." Before a case against or for corporate dictatorship is made, it's useful to examine the effect that recent workplace events had on the structure of consortiums. The uberisation of the workplace and the rise of the gig economy have rendered the idea of a monarchy in the workplace obsolete. At least that's how it's marketed. Nevertheless, what remains is the fine print on the contracts between platforms and partners. They pit individuals against one another, turning competition into governance. For now, the numbers remain small. Self-employed platform workers are statistically marginal. Any conclusions about the broader structural impact of uberisation should be restrained. What stands firm, however, is one truth: without regulation, private property becomes fertile ground for hierarchy. In the absence of checks, ownership naturally breeds control. Once we accept that a company functions as a form of government, complete democratisation becomes impossible. Giving employees veto power over a company’s decisions appears fair in theory but fractures in practice. A decision blocked by a majority can still harm countless others who never had a say. And even where the majority rules, oversight remains thin. Corporate democracy, therefore, is not merely fragile — it is dangerous.
 
-The notion of government has always gone hand in hand with questions regarding its legitimacy. The idea of creating a parallel between the decision-making structures of the State and those of the company in order to highlight the tension between our, relatively, democratic principles and the subordination endured by employees is not new.
+> If democracy fails within the firm, does dictatorship remain the only viable structure?
 
-The "new feudalism" that was being established in factories as early as the 1830s became the target of the socialist party who advocated for "brining the Republic down into the workshop". Catholics of the "Le Sillon" movement in the late 19th century stated that it is not possible to "have the republic in society while the monarchy remains in the company."
+Successful firms operate through strong operators — individuals or groups who act as a single, coherent intelligence. Their duty is to steer both the micro and macro functions of the company with precision and direction. Their tools are data, systems that exploit this data, and ethics. Few companies hold all three. And among these, ethics is usually the first to be sacrificed. Inside a boardroom, everyone claims to have an ethical model. What they have instead are suggestions. Ethics, unenforceable and unmeasured, becomes a decorative principle — not an operational one. Common remedies exist: labor protections, participatory councils, rights of voice and recourse. But they are often cosmetic. Bandages over a wound that requires stitching.
 
-Before a case against or for corporate dictatorship is made, it's useful to examine the effect that recent workplace events had on the structure of consortiums. The uberisation of the workplace and the rise of the gig economy have rendered the idea of a monarchy in the workplace obsolete. At least that's how it's marketed.
+> The deeper cure has two components: ethics and free exit.
 
-Nevertheless, what remains is the fine print on the contracts between platforms and partners. They pit individuals against one another, turning competition into governance.
+A moral framework that defines right conduct across every layer of the firm, combined with the freedom to leave without penalty, can do more to eliminate corporate pathology than any democratic reform. When employees are free to leave and companies are forced to retain them through merit, ethics becomes a competitive advantage. The market then selects not only for efficiency but for moral fitness. Contractual barriers like non-compete clauses must be the first casualties of ethical reform. They trap talent in systems that no longer deserve it. When mobility is restricted, corruption compounds.
 
-For now, the numbers remain small. Self-employed platform workers are statistically marginal. Any conclusions about the broader structural impact of uberisation should be restrained.
+> Two principles must guide any ethical corporate order: proof of work and non-zero-sum reasoning.
 
-What stands firm, however, is one truth: without regulation, private property becomes fertile ground for hierarchy. In the absence of checks, ownership naturally breeds control.
-
-Once we accept that a company functions as a form of government, complete democratisation becomes impossible.
-Giving employees veto power over a company’s decisions appears fair in theory but fractures in practice. A decision blocked by a majority can still harm countless others who never had a say. And even where the majority rules, oversight remains thin.
-
-Corporate democracy, therefore, is not merely fragile — it is dangerous.
-
-The question that follows is uncomfortable:
-If democracy fails within the firm, does dictatorship remain the only viable structure?
-
-Successful firms operate through strong operators — individuals or groups who act as a single, coherent intelligence. Their duty is to steer both the micro and macro functions of the company with precision and direction.
-
-Their tools are data, systems that exploit this data, and ethics.
-Few companies hold all three.
-And among these, ethics is usually the first to be sacrificed.
-
-Inside a boardroom, everyone claims to have an ethical model. What they have instead are suggestions. Ethics, unenforceable and unmeasured, becomes a decorative principle — not an operational one.
-
-Common remedies exist: labor protections, participatory councils, rights of voice and recourse.
-But they are often cosmetic. Bandages over a wound that requires stitching.
-
-The deeper cure has two components: ethics and free exit.
-
-A moral framework that defines right conduct across every layer of the firm, combined with the freedom to leave without penalty, can do more to eliminate corporate pathology than any democratic reform.
-
-When employees are free to leave and companies are forced to retain them through merit, ethics becomes a competitive advantage. The market then selects not only for efficiency but for moral fitness.
-
-Contractual barriers like non-compete clauses must be the first casualties of ethical reform.
-They trap talent in systems that no longer deserve it.
-When mobility is restricted, corruption compounds.
-
-Two principles must guide any ethical corporate order: proof of work and non-zero-sum reasoning.
-
-Proof of work ensures that value follows contribution. Reward scales with involvement.
-
-Non-zero-sum reasoning reframes competition: employees do not compete with one another, but with the market itself. The goal is not to seize a larger slice but to expand the pie.
-
-This shift transforms internal politics into collective purpose.
-
-The workplace cannot be perfectly cleansed. It is a human institution — fallible, layered, and political.
-But injecting ethics into it is more realistic than reinventing it as a democracy.
-
-Regulation should aim for this: not to equalize every voice, but to constrain power through principle and mobility.
-
-In that balance — ethics enforced, exit guaranteed — lies the closest thing to justice a firm can achieve.
+Proof of work ensures that value follows contribution. Reward scales with involvement. Non-zero-sum reasoning reframes competition: employees do not compete with one another, but with the market itself. The goal is not to seize a larger slice but to expand the pie. This shift transforms internal politics into collective purpose. The workplace cannot be perfectly cleansed. It is a human institution — fallible, layered, and political. But injecting ethics into it is more realistic than reinventing it as a democracy. Regulation should aim for this: not to equalize every voice, but to constrain power through principle and mobility. In that balance — ethics enforced, exit guaranteed — lies the closest thing to justice a firm can achieve.
