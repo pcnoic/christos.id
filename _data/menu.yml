@@ -1,9 +1,9 @@
 entries:
-  - title: Currently working on tools for operations teams
+  - title: Currently building tools for operations teams
 
   - title: writing
     post_list:
-      limit: 5
+      limit: 10
       show_more: true
       show_more_text: "see all posts..."
       show_more_url: /archive.html
@@ -37,10 +37,10 @@ entries:
         url: https://fabulasdemachina.com
       - title: The Capital Archive
         url: https://thecapitalarchive.org
-      - title: The Ashen Archives
-        url: https://ashenarchives.com
+      - title: The Ashen Archives (soon)
+        url: https://ashenarchives.fm
 
-  - title: projects
+  - title: tools I maintain
     entries:
       - title: PDFLabeler
         url: https://pdflabeler.com
