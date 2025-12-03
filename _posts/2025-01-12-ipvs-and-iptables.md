@@ -391,3 +391,10 @@ Rather than a list of sequential rules, it offers an optimized API and an optimi
 
 ### In the wild
 
+So, nominally kube-proxy's connection processing performance is better in IPVS mode than in iptables mode. In practice, there are two key attributes you will likely care about when it comes to the performance of kube-proxy: 
+
+- CPU usage: how does your host where your pods are scheduled perform, including userspace and kernel/system usage, across all the processes needed to support your microservices stack, including kube-proxy?
+- Round-trip time: when your microservices call each other, how long does it take on average for the to send and receive requests and responses?
+
+The best way to test this is launch a load generator client microservice pod on a dedicated node generating around 1000 requests per second to a Kubernetes service backend. Scaling up to 100,000 service backends and running the load tests on repeat, I was able to paint a picture of the performance of kube-proxy both in IPVS and iptables mode. 
+
