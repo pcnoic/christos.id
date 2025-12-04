@@ -612,39 +612,50 @@ The best way to test this is launch a load generator client microservice pod on 
 </style>
 
 <div id="benchmark-scene">
-    <h2>Kubernetes Service Routing Performance at Scale</h2>
+  <h2>Kubernetes Service Routing Performance at Scale</h2>
 
-<div class="controls">
+  <div class="controls">
     <label for="service-slider">Number of Services:</label>
-    <input type="range" id="service-slider" min="10" max="20000" step="10" value="1000" oninput="updateAnimation()">
+    <input
+      type="range"
+      id="service-slider"
+      min="10"
+      max="20000"
+      step="10"
+      value="1000"
+      oninput="updateAnimation()"
+    />
     <output id="service-count">1000</output>
-    <p style="font-size: 0.9em; margin-top: 6px;">10 endpoints per service • 1000 rps per client node</p>
-</div>
+    <p style="font-size: 0.9em; margin-top: 6px;">
+      10 endpoints per service • 1000 rps per client node
+    </p>
+  </div>
 
-<div class="comparison-container">
+  <div class="comparison-container">
     <div class="mode-panel iptables-mode">
-        <h3>IPTABLES Mode</h3>
-        <div class="description">
-            Sequential rule chain evaluation. Cost grows with every additional service.
+      <h3>IPTABLES Mode</h3>
+      <div class="description">
+        Sequential rule chain evaluation. Cost grows with every additional service.
+      </div>
+      <div class="latency-bar-container">
+        <div class="latency-bar" id="iptables-bar">
+          <span class="latency-value" id="iptables-latency"></span>
         </div>
-        <div class="latency-bar-container">
-            <div class="latency-bar" id="iptables-bar">
-                <span class="latency-value" id="iptables-latency"></span>
-            </div>
-        </div>
+      </div>
     </div>
 
-<div class="mode-panel ipvs-mode">
-        <h3>IPVS Mode</h3>
-        <div class="description">
-            Constant-time lookup through hashed connection tables.
+    <div class="mode-panel ipvs-mode">
+      <h3>IPVS Mode</h3>
+      <div class="description">
+        Constant-time lookup through hashed connection tables.
+      </div>
+      <div class="latency-bar-container">
+        <div class="latency-bar" id="ipvs-bar">
+          <span class="latency-value" id="ipvs-latency"></span>
         </div>
-        <div class="latency-bar-container">
-            <div class="latency-bar" id="ipvs-bar">
-                <span class="latency-value" id="ipvs-latency"></span>
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <script>
@@ -697,7 +708,6 @@ The best way to test this is launch a load generator client microservice pod on 
 
     document.addEventListener('DOMContentLoaded', updateAnimation);
 </script>
-
 
 When considering round-trip response time it's important to note that the difference between connections and requests is persistency. Most of the time, microservices will use "keepalive" connections, where each connection is reused for multiple requests. This is important because most new connections require a three-way handshake (SYN, SYN-ACK, ACK), which in turn requires more processing within the kernel networking stack.
 
