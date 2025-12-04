@@ -4,6 +4,17 @@
   {%-assign posts = site.posts-%}
 {%-endif-%}
 
+{%-comment-%}
+  Exclude preview posts (marked with `preview: True` or `preview: true` in front matter)
+{%-endcomment-%}
+{%-assign all_posts = posts-%}
+{%-assign posts = "" | split: ""-%}
+{%-for post in all_posts-%}
+  {%-unless post.preview == true or post.preview == "True"-%}
+    {%-assign posts = posts | push: post-%}
+  {%-endunless-%}
+{%-endfor-%}
+
 {%-if include.limit and posts.size > include.limit-%}
   {%-assign limit_exceeded = true-%}
 {%-else-%}
