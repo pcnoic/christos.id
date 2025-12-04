@@ -201,7 +201,6 @@ IPVS managed to evade the loss of its original name by its user-space utility, `
 When a packet is received at the interface where a virtual service (VIP:port) is configured, if it belongs to that connection, it is forwarded to the stored backend. Otherwise, it picks a backend based on the scheduling algorithm and creates a new connection entry in the conntrack table so future packets stay pinned.
 
 <style>
-        /* CSS is included here for simplicity */
         #ipvs-scene {
             font-family: monospace;
             padding: 20px;
@@ -316,9 +315,6 @@ When a packet is received at the interface where a virtual service (VIP:port) is
 </div>
 
 <script>
-    // JavaScript is included here for simplicity
-    
-    // We maintain a global state for the Round Robin logic
     let nextServer = 1; 
 
     function startAnimation() {
@@ -338,48 +334,40 @@ When a packet is received at the interface where a virtual service (VIP:port) is
 
         // --- Animation Steps ---
 
-        // 1. Packet enters Director's vicinity
         setTimeout(() => {
             packet.style.transform = 'translate(150px, 0)'; 
         }, 50); 
 
-        // 2. Director performs lookup and scheduling
         setTimeout(() => {
             director.style.backgroundColor = '#4d4dff'; // Flash Director
             decisionStatus.textContent = 'LOOKUP: VIP matched. SCHEDULER: Round Robin...';
         }, 1600);
 
-        // 3. Routing Decision made
         setTimeout(() => {
             decisionStatus.textContent = `ROUTE DECISION: Real Server ${nextServer}`;
             director.style.backgroundColor = '#2a2a5c'; 
         }, 3200);
 
-        // 4. Packet is routed to the selected Real Server
         setTimeout(() => {
             packet.classList.add('routed');
             
             let rsYOffset = 210; 
-            let rsXOffset = nextServer === 1 ? 150 : 410; // Position above RS1 or RS2
+            let rsXOffset = nextServer === 1 ? 150 : 410; 
             
             packet.style.transform = `translate(${rsXOffset}px, ${rsYOffset}px)`;
 
-            // Get the target RS element and mark it as processing
             const targetRS = document.getElementById(`rs${nextServer}`);
             targetRS.classList.add('processing');
 
         }, 4800);
         
-        // 5. Connection processed (Packet removed)
         setTimeout(() => {
-            packet.style.transform = `translate(${nextServer === 1 ? 50 : 510}px, 300px)`; // Move packet out
-            packet.style.opacity = '0'; // Fade out
+            packet.style.transform = `translate(${nextServer === 1 ? 50 : 510}px, 300px)`; 
+            packet.style.opacity = '0'; 
             
-            // Advance the Round Robin counter
             nextServer = nextServer === 1 ? 2 : 1; 
         }, 6400);
         
-        // 6. Reset visual state of the server
         setTimeout(() => {
              rs1.classList.remove('processing');
              rs2.classList.remove('processing');
