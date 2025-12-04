@@ -38,9 +38,12 @@ Examining it in reverse, the matches are used to determine which packets the rul
         background-color: var(--bg);
         color: var(--text);
         width: 700px;
+        max-width: 100%;
+        box-sizing: border-box;
         margin: 30px auto;
         border-radius: 10px;
         position: relative;
+        overflow-x: hidden;
     }
 
     h2 {
@@ -259,6 +262,8 @@ When a packet is received at the interface where a virtual service (VIP:port) is
         color: #a8ffbf;
         border: 1px solid #222;
         width: 760px;
+        max-width: 100%;
+        box-sizing: border-box;
         height: 460px;
         margin: 30px auto;
         position: relative;
@@ -506,6 +511,8 @@ The best way to test this is launch a load generator client microservice pod on 
         border: 1px solid #d0d0d0;
         color: #222;
         width: 860px;
+        max-width: 100%;
+        box-sizing: border-box;
         margin: 30px auto;
         border-radius: 12px;
         box-shadow: 0 6px 20px rgba(0,0,0,0.08);
