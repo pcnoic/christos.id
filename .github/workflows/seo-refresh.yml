@@ -1,0 +1,71 @@
+# SEO Data Refresh Workflow
+# Triggers Jekyll rebuild when programmatic SEO data is updated
+# Can also be scheduled for periodic content freshness
+
+name: SEO Data Refresh
+
+on:
+  # Manual trigger
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for refresh'
+        required: false
+        default: 'Manual SEO data update'
+  
+  # Trigger on data file changes
+  push:
+    paths:
+      - '_data/programmatic_seo.yml'
+      - '_programmatic_pages/**'
+  
+  # Weekly scheduled refresh (Sundays at 2am UTC)
+  schedule:
+    - cron: '0 2 * * 0'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Build Jekyll site
+        run: bundle exec jekyll build
+        env:
+          JEKYLL_ENV: production
+
+      - name: Validate sitemap
+        run: |
+          if [ -f "_site/sitemap.xml" ]; then
+            echo "✓ Sitemap generated successfully"
+            echo "Pages in sitemap:"
+            grep -c "<url>" _site/sitemap.xml || echo "0"
+          else
+            echo "✗ Sitemap not found"
+            exit 1
+          fi
+
+      - name: Check robots.txt
+        run: |
+          if [ -f "_site/robots.txt" ]; then
+            echo "✓ robots.txt present"
+            cat _site/robots.txt
+          else
+            echo "✗ robots.txt not found"
+          fi
+
+      # Add your deployment step here
+      # Example for GitHub Pages:
+      # - name: Deploy to GitHub Pages
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: ./_site

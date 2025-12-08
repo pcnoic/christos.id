@@ -1,0 +1,47 @@
+# Programmatic SEO Data Source
+# Add entries here to auto-generate pages targeting long-tail keywords
+# Each entry creates a unique page with SEO-optimized content
+
+# Example structure for topic-based programmatic pages
+# Customize fields based on your content strategy
+
+topics:
+  - slug: kubernetes-operations
+    title: Kubernetes Operations Guide
+    category: devops
+    keywords:
+      - kubernetes
+      - k8s
+      - container orchestration
+    description: Comprehensive guide to Kubernetes operations and best practices
+    meta_description: Learn Kubernetes operations best practices, deployment strategies, and troubleshooting techniques for production environments.
+    
+  - slug: terraform-infrastructure
+    title: Terraform Infrastructure Patterns
+    category: devops
+    keywords:
+      - terraform
+      - infrastructure as code
+      - IaC
+    description: Infrastructure as Code patterns using Terraform
+    meta_description: Master Terraform infrastructure patterns, modules, and best practices for scalable cloud deployments.
+
+  - slug: observability-stack
+    title: Modern Observability Stack
+    category: devops
+    keywords:
+      - observability
+      - monitoring
+      - logging
+    description: Building a modern observability stack for distributed systems
+    meta_description: Build a comprehensive observability stack with metrics, logging, and tracing for distributed systems.
+
+# Location-based example (if applicable)
+# locations:
+#   - city: San Francisco
+#     state: California
+#     country: USA
+#     service_type: DevOps Consulting
+#     population: 874961
+#     service_cost_avg: 150
+#     unique_description: Tech hub with high demand for DevOps expertise

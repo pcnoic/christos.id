@@ -23,3 +23,36 @@ sass:
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-sitemap
+
+# SEO Configuration
+twitter:
+  username: pcnoic
+  card: summary
+
+social:
+  name: Chris Alexiou
+  links:
+    - https://twitter.com/pcnoic
+    - https://github.com/pcnoic
+    - https://linkedin.com/in/christos-alexiou
+
+# Structured Data defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Chris Alexiou"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+
+# Collections for programmatic SEO
+collections:
+  programmatic_pages:
+    output: true
+    permalink: /:collection/:title/
