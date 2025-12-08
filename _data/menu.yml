@@ -1,35 +1,9 @@
 entries:
   - title: Currently building tools for operations teams
 
-  - title: writing
-    post_list:
-      limit: 10
-      show_more: true
-      show_more_text: "see all posts..."
-      show_more_url: /archive.html
+  - title: "work: <a href=\"https://comidor.com\">Comidor</a>, <a href=\"https://alfaview.com\">Alfaview</a>, <a href=\"https://budibase.com\">Budibase</a>, <a href=\"https://bloomreach.com\">Bloomreach</a>, <a href=\"https://google.com\">Google (interned)</a>, <a href=\"https://flightcast.com\">Flightcast</a>, <a href=\"https://adia.ai\">Adia Health</a>, <a href=\"https://clutch.com\">Clutch</a>"
 
-  - title: work
-    entries:
-      - title: Comidor
-        url: https://comidor.com
-      - title: Alfaview
-        url: https://alfaview.com
-      - title: Budibase
-        url: https://budibase.com
-      - title: Bloomreach
-        url: https://bloomreach.com
-      - title: Google (interned)
-        url: https://google.com
-      - title: Flightcast
-        url: https://flightcast.com
-      - title: Adia Health
-        url: https://adia.ai
-      - title: Clutch
-        url: https://clutch.com
-
-  - title: founded
-    entries:
-      - title: Podbeam, a podcasting platform backed by <a href="https://pioneer.app">Pioneer</a>, amongst others
+  - title: "founded: <a href=\"https://podbeam.io\">Podbeam</a>, a podcasting platform backed by <a href=\"https://pioneer.app\">Pioneer</a>, amongst others. <a href=\"https://tynr.app\">Tynr</a>, a text-based dating app."
 
   - title: podcasts (through <a href="https://darkpodcasting.com">Dark Studios</a>)
     entries:
@@ -40,9 +14,11 @@ entries:
       - title: The Ashen Archives (soon)
         url: https://ashenarchives.fm
 
-  - title: tools I maintain
-    entries:
-      - title: PDFLabeler
-        url: https://pdflabeler.com
+  - title: writing
+    post_list:
+      limit: 10
+      show_more: true
+      show_more_text: "see all posts..."
+      show_more_url: /archive.html
 
-  - title: <a href="mailto:c@christos.id">c@christos.id</a>
+  - title: "I don't monitor my social media. If you'd like to reach me, email me at <a href=\"mailto:c@christos.id\">c@christos.id</a>."
