@@ -1,0 +1,12 @@
+# Robots.txt for christos.id
+# Allow all crawlers access to all content
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://christos.id/sitemap.xml
+
+# Disallow crawling of non-content directories
+Disallow: /assets/
+Disallow: /_sass/
