@@ -1,0 +1,20 @@
+{% comment %}
+Person Schema Markup for author/site owner
+Usage: {% include schema/person.html %}
+{% endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "{{ site.author }}",
+  "url": "{{ site.url }}",
+  "email": "{{ site.email }}"
+  {% if site.social.links %},
+  "sameAs": [
+    {% for link in site.social.links %}
+    "{{ link }}"{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+  {% endif %}
+}
+</script>

@@ -1,0 +1,25 @@
+{% comment %}
+FAQ Schema Markup
+Usage: {% include schema/faq.html faqs=page.faqs %}
+Expects faqs to be an array of objects with 'question' and 'answer' keys
+{% endcomment %}
+{% if include.faqs %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for faq in include.faqs %}
+    {
+      "@type": "Question",
+      "name": "{{ faq.question | escape }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ faq.answer | escape }}"
+      }
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}

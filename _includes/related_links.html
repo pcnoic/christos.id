@@ -1,0 +1,71 @@
+{% comment %}
+Dynamic Internal Linking Component
+Usage: {% include related_links.html category="devops" current_slug="kubernetes-ops" %}
+Finds and links to related content based on category or tags
+{% endcomment %}
+
+{% assign related_posts = site.posts | where_exp: "post", "post.url != page.url" %}
+
+{% if include.category %}
+  {% assign category_posts = related_posts | where: "category", include.category %}
+  {% if category_posts.size > 0 %}
+    {% assign related_posts = category_posts %}
+  {% endif %}
+{% endif %}
+
+{% if include.tags %}
+  {% assign tag_posts = "" | split: "" %}
+  {% for post in related_posts %}
+    {% for tag in include.tags %}
+      {% if post.tags contains tag %}
+        {% assign tag_posts = tag_posts | push: post %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+  {% if tag_posts.size > 0 %}
+    {% assign related_posts = tag_posts | uniq %}
+  {% endif %}
+{% endif %}
+
+{% assign related_posts = related_posts | slice: 0, 5 %}
+
+{% if related_posts.size > 0 %}
+<nav class="related-links" aria-label="Related content">
+  <h3>Related Reading</h3>
+  <ul>
+    {% for post in related_posts %}
+    <li>
+      <a href="{{ post.url | relative_url }}" title="{{ post.title }}">
+        {{ post.title }}
+      </a>
+      {% if post.description %}
+      <span class="related-description">{{ post.description | truncate: 80 }}</span>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</nav>
+{% endif %}
+
+{% comment %} Also link to programmatic pages in same category {% endcomment %}
+{% if include.category %}
+  {% assign programmatic_topics = site.data.programmatic_seo.topics | where: "category", include.category %}
+  {% assign programmatic_topics = programmatic_topics | where_exp: "topic", "topic.slug != include.current_slug" %}
+  {% assign programmatic_topics = programmatic_topics | slice: 0, 3 %}
+  
+  {% if programmatic_topics.size > 0 %}
+  <nav class="related-topics" aria-label="Related topics">
+    <h4>Explore More</h4>
+    <ul>
+      {% for topic in programmatic_topics %}
+      <li>
+        <a href="{{ site.baseurl }}/programmatic_pages/{{ topic.slug }}/" title="{{ topic.title }}">
+          {{ topic.title }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </nav>
+  {% endif %}
+{% endif %}

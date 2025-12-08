@@ -1,0 +1,35 @@
+{% comment %}
+Article Schema Markup
+Usage: {% include schema/article.html %}
+Automatically pulls data from page front matter
+{% endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ page.title | escape }}",
+  "description": "{{ page.description | default: page.excerpt | strip_html | truncate: 160 | escape }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ page.author | default: site.author }}",
+    "url": "{{ site.url }}"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "{{ site.author }}",
+    "url": "{{ site.url }}"
+  },
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ page.url | absolute_url }}"
+  }
+  {% if page.image %},
+  "image": "{{ page.image | absolute_url }}"
+  {% endif %}
+  {% if page.tags %},
+  "keywords": "{{ page.tags | join: ', ' }}"
+  {% endif %}
+}
+</script>

@@ -1,0 +1,62 @@
+---
+layout: default
+---
+{%- assign page_data = site.data.programmatic_seo.topics | where: 'slug', page.data_slug | first -%}
+
+<article class="programmatic-page" itemscope itemtype="https://schema.org/Article">
+  {%- include back_link.html -%}
+  
+  <header>
+    <h1 itemprop="headline">{{ page_data.title | default: page.title }}</h1>
+    <meta itemprop="author" content="{{ site.author }}">
+    <meta itemprop="datePublished" content="{{ page.date | date_to_xmlschema }}">
+  </header>
+
+  <section class="content" itemprop="articleBody">
+    {% if page_data.description %}
+    <p class="lead">{{ page_data.description }}</p>
+    {% endif %}
+
+    {{ content }}
+
+    {% if page_data.keywords %}
+    <div class="keywords">
+      <strong>Related topics:</strong>
+      {% for keyword in page_data.keywords %}
+        <span class="keyword">{{ keyword }}</span>{% unless forloop.last %}, {% endunless %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+
+  {%- include related_links.html category=page_data.category current_slug=page_data.slug -%}
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{ page_data.title | default: page.title | escape }}",
+    "description": "{{ page_data.meta_description | default: page_data.description | escape }}",
+    "author": {
+      "@type": "Person",
+      "name": "{{ site.author }}",
+      "url": "{{ site.url }}"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "{{ site.author }}",
+      "url": "{{ site.url }}"
+    },
+    "datePublished": "{{ page.date | date_to_xmlschema }}",
+    "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{ page.url | absolute_url }}"
+    }
+    {% if page_data.keywords %},
+    "keywords": "{{ page_data.keywords | join: ', ' }}"
+    {% endif %}
+  }
+  </script>
+</article>
