@@ -2,6 +2,7 @@
 layout: post
 title: the illusion of venture capital in startup dynamics
 date: 2024-12-01
+description: Reflections on the paradox of raising capital—how growth obligations reshape company culture and why most startups should let customers, not investors, decide their worth.
 ---
 
 ### the meeting

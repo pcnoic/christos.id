@@ -2,6 +2,7 @@
 layout: post
 title: unit testing prometheus rules for reliable monitoring
 date: 2023-04-07
+description: How to unit test Prometheus alerting and recording rules using the built-in testing framework, with practical examples and test environment setup.
 ---
 
 ### introduction

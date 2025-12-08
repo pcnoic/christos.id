@@ -2,6 +2,7 @@
 layout: post
 title: an implementation of the paxos algorithm in rust
 date: 2024-01-05
+description: A practical Rust implementation of the Paxos consensus algorithm, covering proposers, acceptors, learners, and the prepare/accept phases for distributed systems.
 ---
 
 ### why paxos?

@@ -2,6 +2,7 @@
 layout: post
 title: corporate dictatorships
 date: 2022-07-10
+description: Examining the tension between democratic principles and workplace hierarchy—why ethics and free exit may matter more than corporate democracy.
 ---
 
 > He who has never learned to obey cannot be a good commander - Aristotle
