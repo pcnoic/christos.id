@@ -6,6 +6,9 @@
     {%- else -%}
       {{ item.title }}
     {%- endif -%}
+    {%- if item.description -%}
+      <span> - {{ item.description }}</span>
+    {%- endif -%}
     </li>
 
     {%-if item.post_list-%}
