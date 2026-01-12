@@ -14,6 +14,19 @@ module Jekyll
       self.read_yaml(src_dir, name)
       
       self.data['layout'] ||= 'page'
+
+      # Force directory-style URLs (pretty URLs)
+      basename = File.basename(name, '.*')
+      if basename != 'index'
+        # Construct the permalink path
+        # Ensure it starts with / and ends with /
+        
+        # relative_dir might be empty or "software/extensions..."
+        parts = relative_dir.split('/').reject(&:empty?)
+        parts << basename
+        
+        self.data['permalink'] = '/' + parts.join('/') + '/'
+      end
     end
   end
 
