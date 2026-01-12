@@ -1,29 +1,51 @@
 <ul>
   {%-for item in include.collection-%}
-    <li>
-    {%- if item.url -%}
-      <a href="{{ item.url }}">{{ item.title }}</a>
+    {%- if item.display == 'table' -%}
+      <li>
+        {{ item.title }}
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+          {%- for entry in item.entries -%}
+            <tr>
+              <td><a href="{{ entry.url }}">{{ entry.title }}</a></td>
+              <td>{{ entry.description }}</td>
+            </tr>
+          {%- endfor -%}
+          </tbody>
+        </table>
+      </li>
     {%- else -%}
-      {{ item.title }}
-    {%- endif -%}
-    {%- if item.description -%}
-      <span> - {{ item.description }}</span>
-    {%- endif -%}
-    </li>
+      <li{% if item.class %} class="{{ item.class }}"{% endif %}>
+      {%- if item.url -%}
+        <a href="{{ item.url }}">{{ item.title }}</a>
+      {%- else -%}
+        {{ item.title }}
+      {%- endif -%}
+      {%- if item.description -%}
+        <span> - {{ item.description }}</span>
+      {%- endif -%}
 
-    {%-if item.post_list-%}
-      {%
-        include post_list.html
-          category=item.post_list.category
-          limit=item.post_list.limit
-          show_more=item.post_list.show_more
-          show_more_text=item.post_list.show_more_text
-          show_more_url=item.post_list.show_more_url
-     -%}
-    {%-endif-%}
+      {%-if item.post_list-%}
+        {%
+          include post_list.html
+            category=item.post_list.category
+            limit=item.post_list.limit
+            show_more=item.post_list.show_more
+            show_more_text=item.post_list.show_more_text
+            show_more_url=item.post_list.show_more_url
+        -%}
+      {%-endif-%}
 
-    {%-if item.entries-%}
-      {%-include menu_item.html collection=item.entries-%}
-    {%-endif-%}
+      {%-if item.entries-%}
+        {%-include menu_item.html collection=item.entries-%}
+      {%-endif-%}
+      </li>
+    {%- endif -%}
   {%-endfor-%}
 </ul>

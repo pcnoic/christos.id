@@ -21,9 +21,8 @@ entries:
       show_more_text: "see all posts..."
       show_more_url: /archive.html
 
-  - title: "I don't monitor my social media. If you'd like to reach me, email me at <a href=\"mailto:c@christos.id\">c@christos.id</a>."
-
   - title: Random software and apps
+    display: table
     entries:
       - title: Tynr
         url: https://tynr.app
@@ -34,3 +33,6 @@ entries:
       - title: Terraform AWS Metabase
         url: https://github.com/Budibase/terraform-aws-metabase
         description: terraform module for deploying Metabase on AWS
+
+  - title: "I don't monitor my social media. If you'd like to reach me, email me at <a href=\"mailto:c@christos.id\">c@christos.id</a>."
+    class: "social-monitor-notice"
