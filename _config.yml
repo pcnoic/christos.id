@@ -56,3 +56,6 @@ collections:
   programmatic_pages:
     output: true
     permalink: /:collection/:title/
+
+exclude:
+  - src/pages
