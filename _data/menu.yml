@@ -21,7 +21,7 @@ entries:
       show_more_text: "see all posts..."
       show_more_url: /archive.html
 
-  - title: Some opens-source programming 
+  - title: Some open-source programming 
     display: table
     entries:
       - title: Terraform AWS Metabase
