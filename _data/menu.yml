@@ -21,15 +21,9 @@ entries:
       show_more_text: "see all posts..."
       show_more_url: /archive.html
 
-  - title: Random software and apps
+  - title: Some opens-source programming 
     display: table
     entries:
-      - title: Tynr
-        url: https://tynr.app
-        description: a text-based dating app
-      - title: PDF Labeler
-        url: https://pdflabeler.com
-        description: a batch pdf relabelling tool
       - title: Terraform AWS Metabase
         url: https://github.com/Budibase/terraform-aws-metabase
         description: terraform module for deploying Metabase on AWS
