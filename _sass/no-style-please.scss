@@ -1,6 +1,7 @@
 // -------------- THEME SWITCHER -------------- //
 @mixin dark-appearance {
-  html, body {
+  html,
+  body {
     background: #050608;
     color: #e5e5e5;
   }
@@ -19,24 +20,34 @@
   }
 }
 
-body[a="dark"] { @include dark-appearance; }
-
+body[a="dark"] {
+  @include dark-appearance;
+}
 
 @media (prefers-color-scheme: dark) {
-  body[a="auto"] { @include dark-appearance; }
+  body[a="auto"] {
+    @include dark-appearance;
+  }
 }
 // -------------------------------------------- //
 
 // bg color is also needed in html in order to
 // block body's background propagation
 // see: https://stackoverflow.com/a/61265706
-html, body { background: white; }
+html,
+body {
+  background: white;
+}
 
-html { height: 100%; scroll-behavior: smooth; }
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+}
 
 body {
   color: black;
-  font-family: "Fira Code", "JetBrains Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: "Fira Code", "JetBrains Mono", Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
   font-size: 16px;
   line-height: 1.6;
   margin: 0;
@@ -44,7 +55,28 @@ body {
   overflow-wrap: break-word;
 }
 
-.post-meta { 
+body.home {
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .page-content {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .w {
+    flex: 1;
+    overflow-y: auto;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+.post-meta {
   text-align: right;
   font-size: 14px;
   opacity: 0.7;
@@ -56,36 +88,53 @@ body {
   margin-bottom: 1rem;
 }
 
-h1 { 
+h1 {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
   font-size: 1.6rem;
   font-weight: bold;
 }
 
-h2, h3, h4, h5, h6 { 
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-top: 2.5rem;
   margin-bottom: 1rem;
   font-weight: bold;
 }
 
-h2 { font-size: 1.3rem; }
-h3 { font-size: 1.2rem; }
-h4 { font-size: 1.1rem; }
+h2 {
+  font-size: 1.3rem;
+}
+h3 {
+  font-size: 1.2rem;
+}
+h4 {
+  font-size: 1.1rem;
+}
 
-hr { margin: 2rem 0; }
+hr {
+  margin: 2rem 0;
+}
 
-p { margin: 1rem 0; }
+p {
+  margin: 1rem 0;
+}
 
-li { margin: 0.4rem 0; }
+li {
+  margin: 0.4rem 0;
+}
 
 article {
   h1 {
     font-size: 1.5rem;
     margin-bottom: 2rem;
   }
-  
-  h3, h4 {
+
+  h3,
+  h4 {
     margin-top: 2rem;
   }
 }
@@ -111,13 +160,21 @@ hr {
   text-align: center;
   border: 0;
 
-  &:before { content: '/////' }
-  &:after { content: attr(data-content) '/////' }
+  &:before {
+    content: "/////";
+  }
+  &:after {
+    content: attr(data-content) "/////";
+  }
 }
 
-table { width: 100%; }
+table {
+  width: 100%;
+}
 
-table, th, td {
+table,
+th,
+td {
   border: thin solid black;
   border-collapse: collapse;
   padding: 0.4rem;
@@ -141,7 +198,9 @@ blockquote {
   padding: 0.75rem 1rem;
   margin: 1.5rem 0;
 
-  p { margin: 0; }
+  p {
+    margin: 0;
+  }
 }
 
 img {
