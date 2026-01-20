@@ -1,6 +1,7 @@
 /**
  * Home page responsive font sizing
  * Detects screen size and adjusts font to fit content within the viewport
+ * On mobile devices (<=768px), uses a fixed comfortable size since scrolling is enabled
  */
 (function () {
   "use strict";
@@ -8,10 +9,22 @@
   const MIN_FONT_SIZE = 10;
   const MAX_FONT_SIZE = 24;
   const INITIAL_FONT_SIZE = 16;
+  const MOBILE_FONT_SIZE = 14;
+  const MOBILE_BREAKPOINT = 768;
+
+  function isMobile() {
+    return window.innerWidth <= MOBILE_BREAKPOINT;
+  }
 
   function fitContentToViewport() {
     const wrapper = document.querySelector(".w");
     if (!wrapper) return;
+
+    // On mobile, use a comfortable fixed font size since scrolling is enabled
+    if (isMobile()) {
+      document.body.style.fontSize = MOBILE_FONT_SIZE + "px";
+      return;
+    }
 
     const viewportHeight = window.innerHeight;
     const viewportWidth = window.innerWidth;
