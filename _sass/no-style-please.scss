@@ -227,23 +227,28 @@ img {
 }
 
 .post-list {
-  list-style: none;
-  padding-left: 0;
+  list-style: disc;
+  padding-left: 1.5rem;
 }
 
 .post-list li {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
   margin: 0.4rem 0;
 }
 
 .post-date {
   opacity: 0.7;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .post-title {
   text-decoration: underline;
+  flex-grow: 1;
 }
 
 .social-monitor-notice {

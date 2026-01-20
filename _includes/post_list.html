@@ -25,12 +25,12 @@
   <ul class="post-list">
     {%- for post in posts limit: include.limit -%}
         <li>
-          <span class="post-date">{{- post.date | date: site.theme_config.date_format -}}</span>
           {% if site.theme_config.lowercase_titles == true %}
           <a href="{{ post.url | relative_url }}" class="post-title">{{ post.title | downcase }}</a>
           {% else %}
           <a href="{{ post.url | relative_url }}" class="post-title">{{ post.title }}</a>
           {% endif %}
+          <span class="post-date">{{- post.date | date: site.theme_config.date_format -}}</span>
         </li>
     {%- endfor -%}
     {%- if include.show_more and limit_exceeded -%}
