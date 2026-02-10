@@ -29,7 +29,7 @@ module Jekyll
       return unless key
 
       host = URI.parse(site.config['url']).host
-      key_location = "#{site.config['url']}/#{key}.txt"
+
 
       urls = collect_urls(site)
       
@@ -84,50 +84,3 @@ module Jekyll
   end
 end
 
-# Rake task for manual IndexNow submission
-# Run: bundle exec rake indexnow:submit
-namespace :indexnow do
-  desc "Submit URLs to IndexNow"
-  task :submit do
-    require 'yaml'
-    require 'net/http'
-    require 'json'
-
-    config = YAML.load_file('_config.yml')
-    key = config.dig('indexnow', 'key')
-    
-    unless key
-      puts "IndexNow key not configured in _config.yml"
-      exit 1
-    end
-
-    host = URI.parse(config['url']).host
-    
-    # Read URLs from sitemap or generate
-    urls = []
-    Dir.glob('_site/**/*.html').each do |file|
-      path = file.sub('_site', '').sub('/index.html', '/').sub('.html', '.html')
-      urls << config['url'] + path
-    end
-
-    payload = {
-      host: host,
-      key: key,
-      keyLocation: "#{config['url']}/#{key}.txt",
-      urlList: urls.take(10000) # IndexNow limit
-    }
-
-    uri = URI('https://api.indexnow.org/indexnow')
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-
-    request = Net::HTTP::Post.new(uri.path)
-    request['Content-Type'] = 'application/json'
-    request.body = payload.to_json
-
-    response = http.request(request)
-    
-    puts "IndexNow Response: #{response.code}"
-    puts "Submitted #{urls.length} URLs"
-  end
-end
