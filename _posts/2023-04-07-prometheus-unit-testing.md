@@ -2,7 +2,19 @@
 layout: post
 title: unit testing prometheus rules for reliable monitoring
 date: 2023-04-07
+last_modified_at: 2023-04-07
 description: How to unit test Prometheus alerting and recording rules using the built-in testing framework, with practical examples and test environment setup.
+topic: distributed-systems
+tldr: Use Prometheus's built-in Unit Testing Framework to validate alerting and recording rules before deployment. Define input series, expected outputs, and assertions in YAML test files.
+tags:
+  - prometheus
+  - monitoring
+  - testing
+  - observability
+  - devops
+references:
+  - title: "Prometheus Unit Testing Rules"
+    url: https://prometheus.io/docs/prometheus/latest/configuration/unit_testing_rules/
 ---
 
 ### introduction

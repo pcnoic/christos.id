@@ -2,7 +2,15 @@
 layout: post
 title: the illusion of venture capital in startup dynamics
 date: 2024-12-01
+last_modified_at: 2024-12-01
 description: Reflections on the paradox of raising capital—how growth obligations reshape company culture and why most startups should let customers, not investors, decide their worth.
+topic: engineering-culture
+tldr: Raising capital creates growth obligations that reshape company culture. Most startups don't need VC—let customers, not investors, decide your worth.
+tags:
+  - startups
+  - venture-capital
+  - business
+  - culture
 ---
 
 ### the meeting

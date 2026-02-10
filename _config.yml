@@ -56,6 +56,20 @@ collections:
   programmatic_pages:
     output: true
     permalink: /:collection/:title/
+  topics:
+    output: true
+    permalink: /topics/:slug/
+
+# IndexNow Configuration
+indexnow:
+  enabled: true
+  key: "christos-id-indexnow-key"
 
 exclude:
   - src/pages
+  - seo.md
+  - Gemfile
+  - Gemfile.lock
+  - Dockerfile
+  - Rakefile
+  - README.md

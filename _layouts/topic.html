@@ -1,0 +1,89 @@
+---
+layout: default
+---
+
+{%-include back_link.html-%}
+
+<article class="topic-hub" itemscope itemtype="https://schema.org/CollectionPage">
+  <header class="topic-header">
+    <h1 itemprop="name">{{ page.title }}</h1>
+    
+    {% if page.description %}
+    <p class="topic-description" itemprop="description">{{ page.description }}</p>
+    {% endif %}
+    
+    <p class="topic-meta">
+      <span class="post-count">{{ page.posts | size }} articles</span>
+      {% if page.last_modified_at %}
+      <time datetime="{{ page.last_modified_at | date_to_xmlschema }}" itemprop="dateModified">
+        Last updated: {{ page.last_modified_at | date: site.theme_config.date_format }}
+      </time>
+      {% endif %}
+    </p>
+  </header>
+
+  {% if page.start_here %}
+  <section class="start-here">
+    <h2>Start Here</h2>
+    <p>{{ page.start_here }}</p>
+  </section>
+  {% endif %}
+
+  <div itemprop="mainEntity">
+    {{ content }}
+  </div>
+
+  {% assign topic_posts = site.posts | where: "topic", page.slug %}
+  {% if topic_posts.size > 0 %}
+  <section class="topic-posts">
+    <h2>Articles in this topic</h2>
+    <ul class="topic-post-list">
+      {% for post in topic_posts %}
+      <li>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        {% if post.description %}
+        <p class="post-excerpt">{{ post.description | truncate: 120 }}</p>
+        {% endif %}
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: site.theme_config.date_format }}</time>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if page.further_reading %}
+  <section class="further-reading">
+    <h2>Further Reading</h2>
+    <ul>
+      {% for link in page.further_reading %}
+      <li><a href="{{ link.url }}" {% if link.external %}target="_blank" rel="noopener"{% endif %}>{{ link.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+</article>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "{{ page.title | escape }}",
+  "description": "{{ page.description | default: page.excerpt | strip_html | truncate: 160 | escape }}",
+  "url": "{{ page.url | absolute_url }}",
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {% for post in topic_posts %}
+      {
+        "@type": "ListItem",
+        "position": {{ forloop.index }},
+        "url": "{{ post.url | absolute_url }}",
+        "name": "{{ post.title | escape }}"
+      }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ]
+  }
+}
+</script>
+
+{%- include schema/breadcrumb.html -%}

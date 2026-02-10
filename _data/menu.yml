@@ -12,6 +12,13 @@ entries:
       - title: The Capital Archive
         url: https://thecapitalarchive.org
 
+  - title: topics
+    entries:
+      - title: Distributed Systems
+        url: /topics/distributed-systems/
+      - title: Engineering Culture
+        url: /topics/engineering-culture/
+
   - title: writing
     post_list:
       limit: 10

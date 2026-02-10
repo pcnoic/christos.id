@@ -12,13 +12,59 @@ layout: default
       <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
         {{ page.date | date: site.theme_config.date_format }}
       </time>
-      <meta itemprop="author" content="{{ page.author | default: site.author }}">
+      {% if page.last_modified_at %}
+      <span class="updated">
+        · Updated: <time datetime="{{ page.last_modified_at | date_to_xmlschema }}" itemprop="dateModified">
+          {{ page.last_modified_at | date: site.theme_config.date_format }}
+        </time>
+      </span>
+      {% endif %}
     </p>
   </header>
+
+  {% if page.topic %}
+  <nav class="topic-breadcrumb" aria-label="Topic">
+    {% assign topic_page = site.topics | where: "slug", page.topic | first %}
+    {% if topic_page %}
+    <span class="filed-under">Filed under: <a href="{{ topic_page.url | relative_url }}">{{ topic_page.title }}</a></span>
+    {% endif %}
+  </nav>
+  {% endif %}
+
+  {% if page.tldr %}
+  <aside class="tldr-block">
+    <strong>TL;DR:</strong> {{ page.tldr }}
+  </aside>
+  {% endif %}
 
   <div itemprop="articleBody">
     {{ content }}
   </div>
+
+  <footer class="post-footer">
+    <div class="author-block" itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <span class="author-name" itemprop="name">{{ page.author | default: site.author }}</span>
+      <span class="author-bio">{{ site.description }}</span>
+      <a href="{{ '/about/' | relative_url }}" itemprop="url" class="author-link">About the author</a>
+    </div>
+
+    {% if page.tested_on %}
+    <div class="tested-on">
+      <strong>Tested on:</strong> {{ page.tested_on }}
+    </div>
+    {% endif %}
+
+    {% if page.references %}
+    <section class="references">
+      <h3>References</h3>
+      <ul>
+        {% for ref in page.references %}
+        <li><a href="{{ ref.url }}" target="_blank" rel="noopener">{{ ref.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endif %}
+  </footer>
 
   {%- include related_links.html category=page.category tags=page.tags -%}
 </article>

@@ -1,0 +1,120 @@
+name: SEO Validation
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  seo-checks:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+      
+      - name: Build site
+        run: bundle exec jekyll build
+      
+      - name: Validate HTML and SEO
+        run: |
+          echo "Running SEO validation checks..."
+          
+          # Check for missing titles
+          echo "Checking for missing titles..."
+          find _site -name "*.html" -exec grep -L "<title>" {} \; | while read file; do
+            echo "ERROR: Missing <title> in $file"
+            exit 1
+          done
+          
+          # Check for missing meta descriptions
+          echo "Checking for meta descriptions..."
+          find _site -name "*.html" -exec grep -L 'name="description"' {} \; | while read file; do
+            if [[ ! "$file" =~ (404|sitemap|feed) ]]; then
+              echo "WARNING: Missing meta description in $file"
+            fi
+          done
+          
+          # Check for multiple H1 tags
+          echo "Checking for multiple H1 tags..."
+          for file in $(find _site -name "*.html"); do
+            h1_count=$(grep -c "<h1" "$file" 2>/dev/null || echo "0")
+            if [ "$h1_count" -gt 1 ]; then
+              echo "ERROR: Multiple H1 tags ($h1_count) in $file"
+              exit 1
+            fi
+          done
+          
+          # Check for missing canonical URLs
+          echo "Checking for canonical URLs..."
+          for file in $(find _site -name "*.html"); do
+            if [[ ! "$file" =~ (404|sitemap|feed) ]]; then
+              if ! grep -q 'rel="canonical"' "$file"; then
+                echo "WARNING: Missing canonical URL in $file"
+              fi
+            fi
+          done
+          
+          # Validate JSON-LD schemas
+          echo "Checking JSON-LD schemas..."
+          for file in $(find _site -name "*.html"); do
+            if grep -q 'application/ld+json' "$file"; then
+              # Extract and validate JSON
+              grep -oP '(?<=<script type="application/ld\+json">).*?(?=</script>)' "$file" | while read json; do
+                echo "$json" | python3 -c "import sys,json; json.load(sys.stdin)" 2>/dev/null || {
+                  echo "ERROR: Invalid JSON-LD in $file"
+                  exit 1
+                }
+              done
+            fi
+          done
+          
+          # Check for images without dimensions
+          echo "Checking images for dimensions..."
+          for file in $(find _site -name "*.html"); do
+            if grep -qE '<img[^>]+>' "$file"; then
+              if grep -E '<img[^>]+>' "$file" | grep -vE '(width|height)=' > /dev/null; then
+                echo "WARNING: Images without explicit dimensions in $file"
+              fi
+            fi
+          done
+          
+          echo "SEO validation complete!"
+
+      - name: Check for orphaned posts
+        run: |
+          echo "Checking for orphaned posts (no internal links)..."
+          
+          # Get all post URLs
+          post_urls=$(find _site -path "*/*.html" -name "*.html" | grep -v index.html | sed 's/_site//' | sed 's/.html$//')
+          
+          for url in $post_urls; do
+            # Check if this URL is linked from anywhere
+            link_count=$(grep -r "href=\"$url" _site --include="*.html" | wc -l)
+            if [ "$link_count" -eq 0 ]; then
+              echo "WARNING: Potentially orphaned page: $url"
+            fi
+          done
+
+      - name: Validate sitemaps
+        run: |
+          echo "Validating sitemaps..."
+          
+          for sitemap in _site/sitemap*.xml; do
+            if [ -f "$sitemap" ]; then
+              echo "Checking $sitemap..."
+              # Basic XML validation
+              python3 -c "import xml.etree.ElementTree as ET; ET.parse('$sitemap')" || {
+                echo "ERROR: Invalid XML in $sitemap"
+                exit 1
+              }
+            fi
+          done
+          
+          echo "Sitemap validation complete!"

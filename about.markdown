@@ -2,17 +2,46 @@
 layout: page
 title: About
 permalink: /about/
+description: Chris Alexiou - Ops person, software janitor, and engineering practitioner building tools for engineering teams.
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+## Chris Alexiou
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+I'm an ops person and software janitor currently building tools for engineering teams.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+### Experience
 
+I've worked across the spectrum of engineering organizations:
 
-[jekyll-organization]: https://github.com/jekyll
+- **Enterprise**: [Google](https://google.com) (interned), [Bloomreach](https://bloomreach.com)
+- **Scale-ups**: [Budibase](https://budibase.com), [Alfaview](https://alfaview.com), [Clutch](https://clutch.com)
+- **Startups**: [Comidor](https://comidor.com), [Flightcast](https://flightcast.com), [Adia Health](https://adia.ai)
+
+### Founded
+
+- **Podbeam** - A podcasting platform backed by [Pioneer](https://pioneer.app), amongst others
+- **Garret Street** - A behavioral analytics engine for high-volume retail trading data. Acquired in 2025.
+
+### Podcasts
+
+Through [Dark Studios](https://darkpodcasting.com):
+
+- [Fabulas de Machina](https://fabulasdemachina.com)
+- [The Capital Archive](https://thecapitalarchive.org)
+
+### What I Write About
+
+My writing focuses on:
+
+- **Distributed Systems** - Consensus algorithms, networking patterns, Kubernetes internals
+- **Engineering Culture** - Industry dynamics, organizational patterns, critical perspectives
+
+### Contact
+
+I don't monitor my social media. If you'd like to reach me, email me at [c@christos.id](mailto:c@christos.id).
+
+### Elsewhere
+
+- [GitHub](https://github.com/pcnoic)
+- [Twitter](https://twitter.com/pcnoic)
+- [LinkedIn](https://linkedin.com/in/christos-alexiou)

@@ -2,7 +2,15 @@
 layout: post
 title: corporate dictatorships
 date: 2022-07-10
+last_modified_at: 2022-07-10
 description: Examining the tension between democratic principles and workplace hierarchy—why ethics and free exit may matter more than corporate democracy.
+topic: engineering-culture
+tldr: Companies operate as private governments with unchecked power. The remedy isn't corporate democracy but enforceable ethics and genuine freedom of exit.
+tags:
+  - organizations
+  - culture
+  - governance
+  - workplace
 ---
 
 > He who has never learned to obey cannot be a good commander - Aristotle

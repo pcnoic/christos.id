@@ -1,12 +1,32 @@
 # Robots.txt for christos.id
-# Allow all crawlers access to all content
+# SEO Playbook 2026 - Crawl & Index Control
 
 User-agent: *
 Allow: /
 
-# Sitemap location
-Sitemap: https://christos.id/sitemap.xml
-
-# Disallow crawling of non-content directories
-Disallow: /assets/
+# Disallow non-content directories
+Disallow: /assets/css/
+Disallow: /assets/js/
 Disallow: /_sass/
+Disallow: /_site/
+Disallow: /.jekyll-cache/
+
+# Disallow drafts and preview URLs
+Disallow: /*?preview=*
+Disallow: /*?draft=*
+
+# Disallow internal search results (if any)
+Disallow: /search?*
+Disallow: /*?q=*
+
+# Disallow paginated archives beyond page 1
+Disallow: /page/*
+
+# Sitemap locations (segmented)
+Sitemap: https://christos.id/sitemap.xml
+Sitemap: https://christos.id/sitemap-posts.xml
+Sitemap: https://christos.id/sitemap-pages.xml
+Sitemap: https://christos.id/sitemap-topics.xml
+
+# IndexNow key location
+# Key: See /indexnow-key.txt

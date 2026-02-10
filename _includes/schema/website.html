@@ -1,0 +1,30 @@
+{% comment %}
+WebSite Schema Markup (SEO Playbook 2026)
+Usage: {% include schema/website.html %}
+Include on homepage for site-wide schema
+{% endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{{ site.title }}",
+  "url": "{{ site.url }}",
+  "description": "{{ site.description | strip_newlines | escape }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ site.author }}",
+    "url": "{{ site.url }}/about/",
+    "email": "{{ site.email }}",
+    "sameAs": [
+      {% for link in site.social.links %}
+      "{{ link }}"{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "{{ site.author }}"
+  },
+  "inLanguage": "en-US"
+}
+</script>

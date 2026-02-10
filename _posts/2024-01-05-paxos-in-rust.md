@@ -2,7 +2,21 @@
 layout: post
 title: an implementation of the paxos algorithm in rust
 date: 2024-01-05
+last_modified_at: 2024-01-05
 description: A practical Rust implementation of the Paxos consensus algorithm, covering proposers, acceptors, learners, and the prepare/accept phases for distributed systems.
+topic: distributed-systems
+tldr: Paxos achieves consensus through a two-phase protocol (prepare/accept) with proposers, acceptors, and learners. This Rust implementation demonstrates the core algorithm with practical code examples.
+tags:
+  - rust
+  - distributed-systems
+  - consensus
+  - paxos
+  - algorithms
+references:
+  - title: "Paxos Made Simple - Leslie Lamport"
+    url: https://lamport.azurewebsites.net/pubs/paxos-simple.pdf
+  - title: "The Part-Time Parliament - Original Paper"
+    url: https://lamport.azurewebsites.net/pubs/lamport-paxos.pdf
 ---
 
 ### why paxos?

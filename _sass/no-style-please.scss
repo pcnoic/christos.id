@@ -525,6 +525,269 @@ div.highlighter-rouge code {
   vertical-align: super;
 }
 
+// -------------- SEO COMPONENTS -------------- //
+
+// Topic breadcrumb
+.topic-breadcrumb {
+  margin-bottom: 1.5rem;
+  font-size: 0.9em;
+  color: var(--text-muted);
+
+  .filed-under {
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// TL;DR block (direct answer for AI engines)
+.tldr-block {
+  background: var(--code-bg);
+  border-left: 3px solid var(--accent);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.95em;
+
+  strong {
+    color: var(--accent);
+  }
+}
+
+// Author block
+.post-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.author-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+
+  .author-name {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .author-bio {
+    font-size: 0.9em;
+    color: var(--text-muted);
+  }
+
+  .author-link {
+    font-size: 0.85em;
+    color: var(--accent);
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Tested on block
+.tested-on {
+  font-size: 0.85em;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background: var(--code-bg);
+  border-radius: 3px;
+}
+
+// References section
+.references {
+  margin-top: 1.5rem;
+
+  h3 {
+    font-size: 1em;
+    margin-bottom: 0.75rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 0.5rem;
+      font-size: 0.9em;
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+// Updated date styling
+.post-meta .updated {
+  color: var(--text-muted);
+  font-size: 0.9em;
+}
+
+// -------------- TOPIC HUB PAGES -------------- //
+.topic-hub {
+  .topic-header {
+    margin-bottom: 2rem;
+
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+
+    .topic-description {
+      color: var(--text-secondary);
+      font-size: 1.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .topic-meta {
+      font-size: 0.85em;
+      color: var(--text-muted);
+
+      .post-count {
+        margin-right: 1rem;
+      }
+    }
+  }
+
+  .start-here {
+    background: var(--code-bg);
+    border-left: 3px solid var(--accent);
+    padding: 1rem;
+    margin-bottom: 2rem;
+
+    h2 {
+      font-size: 1em;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+  }
+
+  .topic-posts {
+    margin-top: 2rem;
+
+    h2 {
+      font-size: 1.1em;
+      margin-bottom: 1rem;
+    }
+
+    .topic-post-list {
+      list-style: none;
+      padding: 0;
+
+      li {
+        margin-bottom: 1.25rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        a {
+          color: var(--text-primary);
+          text-decoration: none;
+          font-weight: 500;
+
+          &:hover {
+            color: var(--accent);
+          }
+        }
+
+        .post-excerpt {
+          font-size: 0.9em;
+          color: var(--text-muted);
+          margin: 0.25rem 0;
+        }
+
+        time {
+          font-size: 0.8em;
+          color: var(--text-muted);
+        }
+      }
+    }
+  }
+
+  .further-reading {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+
+    h2 {
+      font-size: 1em;
+      margin-bottom: 0.75rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        margin-bottom: 0.5rem;
+
+        a {
+          color: var(--accent);
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
+
+// -------------- RELATED LINKS ENHANCEMENT -------------- //
+.related-links,
+.related-topics {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+
+  h3, h4 {
+    font-size: 0.95em;
+    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 0.5rem;
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .related-description {
+        display: block;
+        font-size: 0.85em;
+        color: var(--text-muted);
+      }
+    }
+  }
+}
+
 // -------------- PRINT -------------- //
 @media print {
   body {
@@ -535,5 +798,11 @@ div.highlighter-rouge code {
   .w {
     max-width: none;
     padding: 0;
+  }
+
+  .topic-breadcrumb,
+  .related-links,
+  .related-topics {
+    display: none;
   }
 }

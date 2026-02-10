@@ -1,0 +1,17 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {% assign pages = site.pages | where_exp: "page", "page.sitemap != false" %}
+  {% for page in pages %}
+  {% unless page.url contains 'sitemap' or page.url contains '404' or page.url contains 'feed' %}
+  <url>
+    <loc>{{ page.url | absolute_url }}</loc>
+    <lastmod>{{ page.last_modified_at | default: site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>{% if page.url == '/' %}1.0{% elsif page.url contains '/topics/' %}0.9{% else %}0.6{% endif %}</priority>
+  </url>
+  {% endunless %}
+  {% endfor %}
+</urlset>

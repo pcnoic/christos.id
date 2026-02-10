@@ -1,18 +1,23 @@
 {% comment %}
-Article Schema Markup
+BlogPosting Schema Markup (SEO Playbook 2026)
 Usage: {% include schema/article.html %}
 Automatically pulls data from page front matter
 {% endcomment %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Article",
+  "@type": "BlogPosting",
   "headline": "{{ page.title | escape }}",
   "description": "{{ page.description | default: page.excerpt | strip_html | truncate: 160 | escape }}",
   "author": {
     "@type": "Person",
     "name": "{{ page.author | default: site.author }}",
-    "url": "{{ site.url }}"
+    "url": "{{ site.url }}/about/",
+    "sameAs": [
+      {% for link in site.social.links %}
+      "{{ link }}"{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ]
   },
   "publisher": {
     "@type": "Person",
@@ -24,12 +29,23 @@ Automatically pulls data from page front matter
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "{{ page.url | absolute_url }}"
-  }
+  },
+  "url": "{{ page.url | absolute_url }}"
   {% if page.image %},
-  "image": "{{ page.image | absolute_url }}"
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ page.image | absolute_url }}"
+  }
   {% endif %}
   {% if page.tags %},
   "keywords": "{{ page.tags | join: ', ' }}"
+  {% endif %}
+  {% if page.topic %},
+  "isPartOf": {
+    "@type": "CollectionPage",
+    "name": "{{ page.topic | capitalize }}",
+    "url": "{{ site.url }}/topics/{{ page.topic }}/"
+  }
   {% endif %}
 }
 </script>
