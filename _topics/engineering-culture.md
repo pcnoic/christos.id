@@ -7,7 +7,7 @@ start_here: Exploring the intersection of technology, business, and organization
 last_modified_at: 2025-01-12
 ---
 
-## What You'll Find Here
+## Key points
 
 Critical perspectives on the tech industry and engineering organizations:
 

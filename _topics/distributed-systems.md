@@ -14,7 +14,7 @@ further_reading:
     external: true
 ---
 
-## What You'll Learn
+## Key points
 
 This topic covers the fundamentals and advanced concepts of distributed systems engineering:
 

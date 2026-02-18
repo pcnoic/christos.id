@@ -13,9 +13,8 @@ I'm an ops person and software janitor currently building tools for engineering 
 
 I've worked across the spectrum of engineering organizations:
 
-- **Enterprise**: [Google](https://google.com) (interned), [Bloomreach](https://bloomreach.com)
-- **Scale-ups**: [Budibase](https://budibase.com), [Alfaview](https://alfaview.com), [Clutch](https://clutch.com)
-- **Startups**: [Comidor](https://comidor.com), [Flightcast](https://flightcast.com), [Adia Health](https://adia.ai)
+- **enterprise**: [Google](https://google.com) (interned), [Bloomreach](https://bloomreach.com)
+- **startups**: [Comidor](https://comidor.com), [Flightcast](https://flightcast.com), [Adia Health](https://adia.ai), [Budibase](https://budibase.com), [Alfaview](https://alfaview.com), [Clutch](https://clutch.com)
 
 ### Founded
 
@@ -33,8 +32,9 @@ Through [Dark Studios](https://darkpodcasting.com):
 
 My writing focuses on:
 
-- **Distributed Systems** - Consensus algorithms, networking patterns, Kubernetes internals
-- **Engineering Culture** - Industry dynamics, organizational patterns, critical perspectives
+- **distributed systems** - Consensus algorithms, networking patterns, Kubernetes internals
+- **engineering culture** - Industry dynamics, organizational patterns, critical perspectives
+- **startup engineering** - Founding and scaling engineering teams
 
 ### Contact
 
