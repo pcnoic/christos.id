@@ -857,22 +857,29 @@ Nginx is everyone's goto for simulating networking applications so we used it an
     <div id="p-resp2" class="packet-ka data-packet">RESP 2</div>
 
     <div class="ka-controls">
-        <button class="ka-btn" onclick="runWithoutKeepalive()">No Keepalive</button>
-        <button class="ka-btn" onclick="runWithKeepalive()">With Keepalive</button>
+        <button class="ka-btn" onclick="startLoop()">Restart Loop (No Keepalive)</button>
+        <button class="ka-btn" onclick="runWithKeepalive()">Show With Keepalive</button>
     </div>
     <div class="log-panel" id="ka-log"> Waiting to start...</div>
 
 </div>
 
 <script>
+    let isLooping = true;
+    let loopTimeout = null;
+
     function kaLog(msg) {
         const logger = document.getElementById("ka-log");
         logger.innerHTML += "<div>> " + msg + "</div>";
         logger.scrollTop = logger.scrollHeight;
     }
 
-    function resetKA() {
+    function clearLog() {
         document.getElementById("ka-log").innerHTML = "";
+    }
+
+    function resetKA() {
+        if (loopTimeout) clearTimeout(loopTimeout);
         document.getElementById("connection-line").classList.remove("established");
         document.querySelectorAll(".packet-ka").forEach(p => {
             p.style.transition = "none";
@@ -888,7 +895,7 @@ Nginx is everyone's goto for simulating networking applications so we used it an
                 p.style.transition = "none";
                 p.style.opacity = "1";
                 p.style.transform = fromRight ? "translateX(340px)" : "translateX(0)";
-
+                
                 setTimeout(() => {
                     p.style.transition = "transform 0.8s linear, opacity 0.2s";
                     p.style.transform = fromRight ? "translateX(0)" : "translateX(340px)";
@@ -903,38 +910,42 @@ Nginx is everyone's goto for simulating networking applications so we used it an
     }
 
     async function runWithoutKeepalive() {
+        if (!isLooping) return;
         resetKA();
-        kaLog("Starting standard connection (No Keepalive)");
-        // Req 1
+        clearLog();
+        kaLog("Loop: Standard connection (No Keepalive)");
+        
         kaLog("Initiating TCP 3-way handshake...");
         await animatePacket("p-syn", 0, false);
+        if (!isLooping) return;
+        
         await animatePacket("p-synack", 0, true);
+        if (!isLooping) return;
+        
         await animatePacket("p-ack", 0, false);
+        if (!isLooping) return;
+        
         document.getElementById("connection-line").classList.add("established");
-        kaLog("Connection established. Sending Request 1.");
+        kaLog("Connection established. Sending Request.");
         await animatePacket("p-data1", 0, false);
+        if (!isLooping) return;
+        
         await animatePacket("p-resp1", 0, true);
+        if (!isLooping) return;
+        
         document.getElementById("connection-line").classList.remove("established");
-        kaLog("Connection closed. (Delay overhead)");
-
-        // Req 2
-        setTimeout(async () => {
-            kaLog("Initiating new TCP 3-way handshake for Request 2...");
-            await animatePacket("p-syn", 0, false);
-            await animatePacket("p-synack", 0, true);
-            await animatePacket("p-ack", 0, false);
-            document.getElementById("connection-line").classList.add("established");
-            kaLog("Connection established. Sending Request 2.");
-            await animatePacket("p-data2", 0, false);
-            await animatePacket("p-resp2", 0, true);
-            document.getElementById("connection-line").classList.remove("established");
-            kaLog("Done. High latency overhead observed.");
-        }, 1000);
+        kaLog("Connection closed. Re-establishing next...");
+        
+        if (isLooping) {
+            loopTimeout = setTimeout(runWithoutKeepalive, 1500);
+        }
     }
 
     async function runWithKeepalive() {
+        isLooping = false;
         resetKA();
-        kaLog("Starting Keepalive connection...");
+        clearLog();
+        kaLog("Switched to: Keepalive connection...");
         kaLog("Initiating TCP 3-way handshake...");
         await animatePacket("p-syn", 0, false);
         await animatePacket("p-synack", 0, true);
@@ -946,8 +957,19 @@ Nginx is everyone's goto for simulating networking applications so we used it an
         kaLog("Connection kept alive. Sending Request 2 immediately.");
         await animatePacket("p-data2", 0, false);
         await animatePacket("p-resp2", 0, true);
-        kaLog("Done. Minimal latency, fast processing.");
+        kaLog("Done. Minimal latency, fast processing. (Click 'Restart Loop' to reset)");
     }
+    
+    function startLoop() {
+        isLooping = true;
+        runWithoutKeepalive();
+    }
+
+    // Auto-start loop on load
+    document.addEventListener("DOMContentLoaded", () => {
+        // slight delay so the UI finishes rendering
+        setTimeout(startLoop, 1000);
+    });
 </script>
 
 As you can see, negotiating a new connection every time severely penalizes your response times. The more services you have scaling up, the more connections are dropping and reforming.
@@ -985,18 +1007,15 @@ By the time a packet even reaches the Netfilter stack where `iptables` and `IPVS
 <style>
     #ebpf-scene {
         font-family: monospace;
-        padding: 25px;
+        padding: 20px;
         background-color: #1a1b26;
         color: #a9b1d6;
         border: 1px solid #414868;
         width: 760px;
         max-width: 100%;
         box-sizing: border-box;
-        height: 480px;
         margin: 30px auto;
-        position: relative;
         border-radius: 8px;
-        overflow: hidden;
     }
     #ebpf-scene h2 {
         text-align: center;
@@ -1006,174 +1025,202 @@ By the time a packet even reaches the Netfilter stack where `iptables` and `IPVS
         border-bottom: 1px solid #414868;
         padding-bottom: 10px;
     }
-    .ebpf-node {
-        position: absolute;
-        border-radius: 6px;
+    .routing-cols {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
+        justify-content: space-between;
+        gap: 15px;
+        margin-top: 20px;
+        height: 380px;
+    }
+    .r-col {
+        flex: 1;
+        background: #1f2335;
+        border: 1px solid #414868;
+        border-radius: 6px;
+        position: relative;
+    }
+    .r-col-title {
         text-align: center;
-        padding: 10px;
+        background: #24283b;
+        padding: 8px 0;
+        border-bottom: 1px solid #414868;
+        font-weight: bold;
+        color: #7aa2f7;
+        border-radius: 6px 6px 0 0;
+    }
+    .r-node {
+        position: absolute;
+        width: 80%;
+        left: 10%;
+        text-align: center;
+        padding: 12px 0;
+        border-radius: 4px;
+        font-weight: bold;
+        z-index: 2;
         box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     }
-    #nic-node {
-        width: 120px; height: 60px;
-        background: #24283b; border: 2px solid #565f89;
-        bottom: 60px; left: 320px;
-    }
-    #kernel-box {
+    .n-pod { top: 60px; background: #7aa2f7; color: #1a1b26; }
+    
+    /* Netfilter Stack area for column 1 & 2 */
+    .n-stack-bg {
         position: absolute;
-        top: 100px; left: 40px; right: 40px; height: 220px;
+        top: 140px; left: 5%; width: 90%; height: 110px;
         border: 2px dashed #414868;
-        border-radius: 8px;
-        background: #1f2335;
-        z-index: 1;
+        border-radius: 6px;
+        text-align: left;
+        padding-top: 5px;
+        padding-left: 5px;
+        box-sizing: border-box;
+        font-size: 11px;
+        color: #565f89;
     }
-    .kernel-label {
-        position: absolute; top: 10px; left: 15px; color: #565f89; font-weight: bold;
-    }
-    #netfilter-node {
-        width: 140px; height: 80px;
-        background: #f7768e; color: #1a1b26;
-        top: 130px; left: 80px;
-        z-index: 2;
-    }
-    #ebpf-node {
-        width: 140px; height: 80px;
-        background: #9ece6a; color: #1a1b26;
-        top: 220px; right: 260px;
-        z-index: 2;
-    }
-    #pod-node {
-        width: 120px; height: 60px;
-        background: #7aa2f7; color: #1a1b26;
-        top: 20px; right: 80px;
-        z-index: 2;
-    }
-    .ebpf-packet {
+    
+    .n-ipt { top: 170px; background: #f7768e; color: #1a1b26; }
+    .n-ipvs { top: 170px; background: #e0af68; color: #1a1b26; }
+    
+    .n-ebpf-hook { bottom: 85px; background: #9ece6a; color: #1a1b26; padding: 6px 0; }
+    
+    .n-nic { bottom: 20px; background: #24283b; color: #a9b1d6; border: 1px solid #565f89; }
+    
+    .r-packet {
         position: absolute;
-        width: 60px; height: 30px;
-        background: #e0af68; color: #1a1b26;
-        border-radius: 15px;
-        text-align: center; line-height: 30px; font-weight: bold; font-size: 12px;
-        left: 350px; bottom: 130px; /* Right above NIC */
+        width: 24px; height: 16px;
+        border-radius: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 35px; /* middle of NIC */
         opacity: 0;
         z-index: 10;
-        transition: transform 1s ease-in-out, opacity 0.2s;
+        transition: bottom 0.5s linear, opacity 0.2s;
     }
+    .p-ipt { background: #f7768e; box-shadow: 0 0 10px #f7768e; }
+    .p-ipvs { background: #e0af68; box-shadow: 0 0 10px #e0af68; }
+    .p-ebpf { background: #9ece6a; box-shadow: 0 0 10px #9ece6a; }
+
     .ebpf-controls {
-        position: absolute;
-        bottom: 20px; left: 20px; right: 20px;
-        display: flex; justify-content: space-between;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
     }
     .ebpf-btn {
-        padding: 8px 16px; background: #24283b; color: #a9b1d6;
+        padding: 10px 20px; background: #24283b; color: #a9b1d6;
         border: 1px solid #565f89; border-radius: 4px; cursor: pointer; font-family: inherit; font-weight: bold;
     }
     .ebpf-btn:hover { background: #414868; }
-    .ebpf-status {
-        flex-grow: 1; text-align: center; line-height: 35px; color: #ff9e64; font-weight: bold;
-    }
 </style>
 
 <div id="ebpf-scene">
-    <h2>Packet Routing: Netfilter vs eBPF</h2>
+    <h2>Packet Routing Race: iptables vs IPVS vs eBPF</h2>
+    <div class="routing-cols">
+        <!-- iptables -->
+        <div class="r-col">
+            <div class="r-col-title">iptables</div>
+            <div class="r-node n-pod">Pod</div>
+            <div class="n-stack-bg">Netfilter Stack</div>
+            <div class="r-node n-ipt">Rules O(n)</div>
+            <div class="r-node n-nic">NIC</div>
+            <div class="r-packet p-ipt" id="pkt-ipt"></div>
+        </div>
+        
+        <!-- IPVS -->
+        <div class="r-col">
+            <div class="r-col-title">IPVS</div>
+            <div class="r-node n-pod">Pod</div>
+            <div class="n-stack-bg">Netfilter Stack</div>
+            <div class="r-node n-ipvs">Hash O(1)</div>
+            <div class="r-node n-nic">NIC</div>
+            <div class="r-packet p-ipvs" id="pkt-ipvs"></div>
+        </div>
 
-    <div id="kernel-box">
-        <div class="kernel-label">Kernel Space</div>
+        <!-- eBPF -->
+        <div class="r-col">
+            <div class="r-col-title">eBPF</div>
+            <div class="r-node n-pod">Pod</div>
+            <div class="r-node n-ebpf-hook">eBPF Hook</div>
+            <div class="r-node n-nic">NIC</div>
+            <div class="r-packet p-ebpf" id="pkt-ebpf"></div>
+        </div>
     </div>
 
-    <div id="nic-node" class="ebpf-node">Network Intf<br>(NIC)</div>
-    <div id="netfilter-node" class="ebpf-node">Netfilter Stack<br>(iptables/IPVS)</div>
-    <div id="ebpf-node" class="ebpf-node">eBPF Hook<br>(e.g. Cilium)</div>
-    <div id="pod-node" class="ebpf-node">Target Pod</div>
-
-    <div id="e-packet" class="ebpf-packet">DATA</div>
-
     <div class="ebpf-controls">
-        <button class="ebpf-btn" onclick="runTraditional()">Traditional</button>
-        <div id="ebpf-status" class="ebpf-status">Awaiting routing selection...</div>
-        <button class="ebpf-btn" onclick="runeBPF()">eBPF Fast Path</button>
+        <button class="ebpf-btn" onclick="runRace()">Run Routing Race</button>
     </div>
 
 </div>
 
 <script>
-    function resetEBPF() {
-        const p = document.getElementById("e-packet");
-        p.style.transition = "none";
-        p.style.opacity = "0";
-        p.style.transform = "translate(0, 0)";
+    function runRace() {
+        const pIpt = document.getElementById("pkt-ipt");
+        const pIpvs = document.getElementById("pkt-ipvs");
+        const pEbpf = document.getElementById("pkt-ebpf");
+        
+        // Reset
+        [pIpt, pIpvs, pEbpf].forEach(p => {
+            p.style.transition = "none";
+            p.style.opacity = "0";
+            p.style.bottom = "35px";
+            p.style.transform = "translateX(-50%) scale(1)";
+        });
 
-        document.getElementById("netfilter-node").style.boxShadow = "0 4px 6px rgba(0,0,0,0.3)";
-        document.getElementById("ebpf-node").style.boxShadow = "0 4px 6px rgba(0,0,0,0.3)";
-    }
-
-    function setStatus(msg, color) {
-        const s = document.getElementById("ebpf-status");
-        s.textContent = msg;
-        s.style.color = color;
-    }
-
-    function runTraditional() {
-        resetEBPF();
-        setStatus("1. Packet arrives at NIC", "#a9b1d6");
-        const p = document.getElementById("e-packet");
-
+        // Start animation
         setTimeout(() => {
-            p.style.opacity = "1";
-            p.style.transition = "transform 0.8s ease-in-out";
+            [pIpt, pIpvs, pEbpf].forEach(p => p.style.opacity = "1");
 
-            p.style.transform = "translate(-230px, -165px)";
-            setStatus("2. Traverses Kernel to Netfilter stack", "#f7768e");
-
+            /* ---- iptables (O(n) delay) ---- */
+            pIpt.style.transition = "bottom 0.4s linear";
+            pIpt.style.bottom = "185px"; // middle of ipt node
+            
             setTimeout(() => {
-                document.getElementById("netfilter-node").style.boxShadow = "0 0 15px #f7768e";
-                setStatus("3. iptables/IPVS evaluates routing rules", "#f7768e");
+                pIpt.style.transition = "transform 0.15s linear";
+                let bounces = 0;
+                let iptIn = setInterval(() => {
+                    pIpt.style.transform = (bounces % 2 === 0) 
+                        ? "translateX(-80%) scale(1.2)" 
+                        : "translateX(-20%) scale(1.2)";
+                    bounces++;
+                    if (bounces > 8) { // Simulate sequential evaluation delay
+                        clearInterval(iptIn);
+                        pIpt.style.transition = "bottom 0.4s linear, transform 0.2s";
+                        pIpt.style.transform = "translateX(-50%) scale(1)";
+                        pIpt.style.bottom = "300px"; // to pod
+                        setTimeout(() => pIpt.style.opacity = "0", 400);
+                    }
+                }, 150);
+            }, 400);
 
-                setTimeout(() => {
-                    document.getElementById("netfilter-node").style.boxShadow = "0 4px 6px rgba(0,0,0,0.3)";
-                    p.style.transform = "translate(240px, -300px)";
-                    setStatus("4. Forwarded to Target Pod", "#7aa2f7");
-
-                    setTimeout(() => {
-                        p.style.opacity = "0";
-                        setStatus("Traditional routing complete", "#a9b1d6");
-                    }, 800);
-                }, 1200);
-            }, 800);
-        }, 100);
-    }
-
-    function runeBPF() {
-        resetEBPF();
-        setStatus("1. Packet arrives at NIC", "#a9b1d6");
-        const p = document.getElementById("e-packet");
-
-        setTimeout(() => {
-            p.style.opacity = "1";
-            p.style.transition = "transform 0.5s ease-in-out";
-
-            p.style.transform = "translate(40px, -70px)";
-            setStatus("2. eBPF Hook intercepts early!", "#9ece6a");
-
+            /* ---- IPVS (O(1) fast lookup) ---- */
+            pIpvs.style.transition = "bottom 0.4s linear";
+            pIpvs.style.bottom = "185px"; // middle of ipvs node
+            
             setTimeout(() => {
-                document.getElementById("ebpf-node").style.boxShadow = "0 0 15px #9ece6a";
-                setStatus("3. eBPF routing decision made instantly", "#9ece6a");
+                pIpvs.style.transition = "transform 0.15s";
+                pIpvs.style.transform = "translateX(-50%) scale(1.4)";
+                
+                setTimeout(() => { // single instant lookup
+                    pIpvs.style.transform = "translateX(-50%) scale(1)";
+                    pIpvs.style.transition = "bottom 0.4s linear";
+                    pIpvs.style.bottom = "300px"; // to pod
+                    setTimeout(() => pIpvs.style.opacity = "0", 400);
+                }, 200);
+            }, 400);
 
+            /* ---- eBPF (bypasses entirely) ---- */
+            pEbpf.style.transition = "bottom 0.1s linear";
+            pEbpf.style.bottom = "95px"; // hit hook just above NIC
+            
+            setTimeout(() => {
+                pEbpf.style.transition = "transform 0.1s";
+                pEbpf.style.transform = "translateX(-50%) scale(1.4)";
+                
                 setTimeout(() => {
-                    document.getElementById("ebpf-node").style.boxShadow = "0 4px 6px rgba(0,0,0,0.3)";
-                    p.style.transition = "transform 0.7s ease-in-out";
-                    p.style.transform = "translate(240px, -300px)";
-                    setStatus("4. Bypasses Netfilter directly to Pod", "#7aa2f7");
+                    pEbpf.style.transform = "translateX(-50%) scale(1)";
+                    // Bypass Netfilter - Fast straight shot to Pod
+                    pEbpf.style.transition = "bottom 0.3s cubic-bezier(0.1, 0.9, 0.2, 1)";
+                    pEbpf.style.bottom = "300px"; 
+                    setTimeout(() => pEbpf.style.opacity = "0", 300);
+                }, 100);
+            }, 100);
 
-                    setTimeout(() => {
-                        p.style.opacity = "0";
-                        setStatus("eBPF fast path complete", "#a9b1d6");
-                    }, 700);
-                }, 800);
-            }, 500);
         }, 100);
     }
 </script>
