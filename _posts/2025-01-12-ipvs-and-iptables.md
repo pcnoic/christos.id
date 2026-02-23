@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Exotic networking patterns for load balancing that you probably don't need 
-date: 2025-01-12
-last_modified_at: 2025-01-12
+title: Exotic networking patterns for load balancing that you probably don't need
+date: 2025-02-23
+last_modified_at: 2025-02-23
 preview: true
 description: Deep dive into IPVS vs iptables for Kubernetes load balancing, exploring when exotic networking patterns actually matter for bare-metal clusters.
 topic: distributed-systems
@@ -20,13 +20,13 @@ references:
     url: https://kubernetes.io/blog/2018/07/09/ipvs-based-in-cluster-load-balancing-deep-dive/
 ---
 
-After sacrificing a few hours in the quest of finding the optimal bare-metal k8s setup for a project I am working on (more on that on a different blog post), I found myself jumping into the rabbit hole of some exotic networking patterns used in modern Kubernetes load balancing. According to a post from [Dynatrace](https://www.dynatrace.com/news/blog/kubernetes-in-the-wild-2023/#:~:text=A%20typical%20cluster%20running%20in,reflects%20economic%20and%20technical%20considerations.) "a typical cluster running in the public cloud consists of 5 relatively small nodes with just 16 to 32 GB of memory each. In comparison, on-premises clusters have more and larger nodes: on average, 9 nodes with 32 to 64 GB of memory." So, when I remembered that kube-proxy added support for IPVS starting version 1.8 and GA in 1.11 my secondary reaction was doubt. Probably my initial was indifference, because when k8s 1.8 was current, I didn't know much about Kubernetes. Or networks. Or computers to be honest. 
+After sacrificing a few hours in the quest of finding the optimal bare-metal k8s setup for a project I am working on (more on that on a different blog post), I found myself jumping into the rabbit hole of some exotic networking patterns used in modern Kubernetes load balancing. According to a post from [Dynatrace](https://www.dynatrace.com/news/blog/kubernetes-in-the-wild-2023/#:~:text=A%20typical%20cluster%20running%20in,reflects%20economic%20and%20technical%20considerations.) "a typical cluster running in the public cloud consists of 5 relatively small nodes with just 16 to 32 GB of memory each. In comparison, on-premises clusters have more and larger nodes: on average, 9 nodes with 32 to 64 GB of memory." So, when I remembered that kube-proxy added support for IPVS starting version 1.8 and GA in 1.11 my secondary reaction was doubt. Probably my initial was indifference, because when k8s 1.8 was current, I didn't know much about Kubernetes. Or networks. Or computers to be honest.
 
-Despite my late blooming into the computing industry, I now know that there are probably a handful of organizations in the world that would benefit from lower computational complexity. Where I could see benefit for more people was the fact that IPVS was designed inherently as a load balancer so the availability of scheduling algorithms is broader. The randomized, equal-cost selection of iptables when redirecting traffic is, indeed, suboptimal. 
+Despite my late blooming into the computing industry, I now know that there are probably a handful of organizations in the world that would benefit from lower computational complexity. Where I could see benefit for more people was the fact that IPVS was designed inherently as a load balancer so the availability of scheduling algorithms is broader. The randomized, equal-cost selection of iptables when redirecting traffic is, indeed, suboptimal.
 
 ### A bit of iptables and IPVS history
 
-Netfilter is the original Linux kernel's packet processing system. The commonplace name `iptables` came from the command that is used to interact with it, and because of their extremely tight coupling, and `iptables` being one of the most used commands in network computing, I'll refer to both as `iptables`, even when talking about the Netfilter framework. The architecture of `iptables` groups network packet processing rules into tables by function (e.g packet filtering, NAT, and other packet mangling), each of which have chains of processing rules that consist of matches. 
+Netfilter is the original Linux kernel's packet processing system. The commonplace name `iptables` came from the command that is used to interact with it, and because of their extremely tight coupling, and `iptables` being one of the most used commands in network computing, I'll refer to both as `iptables`, even when talking about the Netfilter framework. The architecture of `iptables` groups network packet processing rules into tables by function (e.g packet filtering, NAT, and other packet mangling), each of which have chains of processing rules that consist of matches.
 
 ```mermaid
 graph LR
@@ -34,7 +34,8 @@ graph LR
     B --> C[matches]
 ```
 
-Examining it in reverse, the matches are used to determine which packets the rule will apply to and targets determine what will be done with the matching packets. 
+Examining it in reverse, the matches are used to determine which packets the rule will apply to and targets determine what will be done with the matching packets.
+
 <style>
     :root {
         --bg: #0d0d0d;
@@ -176,6 +177,7 @@ Examining it in reverse, the matches are used to determine which packets the rul
 <div id="console"></div>
 
 <button onclick="startAnimation()" id="btn">Start</button>
+
 </div>
 
 <script>
@@ -261,9 +263,10 @@ Examining it in reverse, the matches are used to determine which packets the rul
 
 The way kube-proxy leverages `iptables` is by attaching rules to the `NAT PREROUTING` chain to implement its load balancing. This is quite simple and uses what is now a very mature kernel feature, working in tandem with the vast majority of networking infrastructure software that also rely on `iptables` for filtering (think CNIs, firewalls, etc).
 
-However, the way kube-proxy is forced to program the `NAT PREROUTING` chain is suboptimal. Nominally, it is an O(n) operation to traverse the chain, where n is the number of rules in the chain. What's more, the chain grows linearly with the number of services (and subsequently the number of pods) in the cluster, leading to a linear increase in traversal time. 
+However, the way kube-proxy is forced to program the `NAT PREROUTING` chain is suboptimal. Nominally, it is an O(n) operation to traverse the chain, where n is the number of rules in the chain. What's more, the chain grows linearly with the number of services (and subsequently the number of pods) in the cluster, leading to a linear increase in traversal time.
 
 ---
+
 IPVS managed to evade the loss of its original name by its user-space utility, `ipvsadm`. It was merged relatively late into the Linux kernel, entering mainline in 2.4.x. Designed specifically for load balancing, IPVS maintains a conntrack-like table of virtual connections and uses standard load balancing scheduling algorithms, offering three forwarding modes: NAT, direct routing and tunneling.
 
 When a packet is received at the interface where a virtual service (VIP:port) is configured, if it belongs to that connection, it is forwarded to the stored backend. Otherwise, it picks a backend based on the scheduling algorithm and creates a new connection entry in the conntrack table so future packets stay pinned.
@@ -362,8 +365,8 @@ When a packet is received at the interface where a virtual service (VIP:port) is
         text-align: center;
         border-radius: 5px;
         box-shadow: 0 0 10px #ffb400;
-        transition: transform 1.5s ease-in-out, 
-                    background-color 0.5s, 
+        transition: transform 1.5s ease-in-out,
+                    background-color 0.5s,
                     box-shadow 0.5s,
                     opacity 0.5s;
         z-index: 10;
@@ -406,7 +409,6 @@ When a packet is received at the interface where a virtual service (VIP:port) is
         filter: brightness(1.1);
     }
 </style>
-
 
 <div id="ipvs-scene">
     <h2>IPVS Load Balancing: Round Robin (RR)</h2>
@@ -507,16 +509,16 @@ When a packet is received at the interface where a virtual service (VIP:port) is
     }
 </script>
 
-Rather than a list of sequential rules, it offers an optimized API and an optimized lookup routine. The result in kube-proxy is a nominal computation complexity of O(1). In most scenarios, its connection processing performance stays constant independent of the number of services in the cluster. One of the potential downsides if you're operating IPVS within a Kubernetes cluster is that it requires investigation as to whether it will behave as expected together with tools that rely on `iptables` packet filtering. 
+Rather than a list of sequential rules, it offers an optimized API and an optimized lookup routine. The result in kube-proxy is a nominal computation complexity of O(1). In most scenarios, its connection processing performance stays constant independent of the number of services in the cluster. One of the potential downsides if you're operating IPVS within a Kubernetes cluster is that it requires investigation as to whether it will behave as expected together with tools that rely on `iptables` packet filtering.
 
 ### In the wild
 
-So, nominally kube-proxy's connection processing performance is better in IPVS mode than in iptables mode. In practice, there are two key attributes you will likely care about when it comes to the performance of kube-proxy: 
+So, nominally kube-proxy's connection processing performance is better in IPVS mode than in iptables mode. In practice, there are two key attributes you will likely care about when it comes to the performance of kube-proxy:
 
 - CPU usage: how does your host where your pods are scheduled perform, including userspace and kernel/system usage, across all the processes needed to support your microservices stack, including kube-proxy?
 - Round-trip time: when your microservices call each other, how long does it take on average for the to send and receive requests and responses?
 
-The best way to test this is launch a load generator client microservice pod on a dedicated node generating around 1000 requests per second to a Kubernetes service backend. Scaling up to 100,000 service backends and running the load tests on repeat, I was able to paint a picture of the performance of kube-proxy both in IPVS and iptables mode. 
+The best way to test this is launch a load generator client microservice pod on a dedicated node generating around 1000 requests per second to a Kubernetes service backend. Scaling up to 100,000 service backends and running the load tests on repeat, I was able to paint a picture of the performance of kube-proxy both in IPVS and iptables mode.
 
 <style>
     #benchmark-scene {
@@ -677,6 +679,7 @@ The best way to test this is launch a load generator client microservice pod on 
         </div>
       </div>
     </div>
+
   </div>
 </div>
 
@@ -735,3 +738,448 @@ When considering round-trip response time it's important to note that the differ
 
 Nginx is everyone's goto for simulating networking applications so we used it and its default keepalive configuration to get a ratio of round-trip response time vs number of connections. The default max keepalive connections is 100, so we used that as our upper bound.
 
+<style>
+    #keepalive-scene {
+        font-family: monospace;
+        padding: 25px;
+        background-color: #1e1e1e;
+        color: #e8e8e8;
+        border: 1px solid #444;
+        width: 760px;
+        max-width: 100%;
+        box-sizing: border-box;
+        height: 380px;
+        margin: 30px auto;
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    #keepalive-scene h2 {
+        text-align: center;
+        margin-top: 0;
+        color: #4da6ff;
+        font-size: 20px;
+        border-bottom: 1px solid #333;
+        padding-bottom: 10px;
+    }
+    .endpoint {
+        position: absolute;
+        width: 120px;
+        height: 80px;
+        background: #2a2a2a;
+        border: 2px solid #555;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+    }
+    #client-node { top: 120px; left: 40px; border-color: #4da6ff; }
+    #server-node { top: 120px; right: 40px; border-color: #ff4d4d; }
+    .packet-ka {
+        position: absolute;
+        width: 80px;
+        height: 24px;
+        background: #4da6ff;
+        color: #000;
+        text-align: center;
+        line-height: 24px;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 12px;
+        top: 148px;
+        left: 170px;
+        opacity: 0;
+        transition: transform 1s linear, opacity 0.2s;
+    }
+    .syn-packet { background: #ffcc00; }
+    .data-packet { background: #4da6ff; }
+    #connection-line {
+        position: absolute;
+        top: 158px;
+        left: 170px;
+        width: 420px;
+        height: 4px;
+        background: #333;
+        z-index: 0;
+    }
+    #connection-line.established {
+        background: #4da6ff;
+        box-shadow: 0 0 8px #4da6ff;
+    }
+    .log-panel {
+        position: absolute;
+        bottom: 20px;
+        left: 40px;
+        right: 40px;
+        height: 80px;
+        background: #000;
+        border: 1px solid #333;
+        padding: 10px;
+        font-size: 12px;
+        overflow-y: auto;
+        border-radius: 4px;
+    }
+    .ka-controls {
+        position: absolute;
+        bottom: 120px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 15px;
+    }
+    .ka-btn {
+        padding: 8px 16px;
+        background: #333;
+        color: #fff;
+        border: 1px solid #555;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: monospace;
+    }
+    .ka-btn:hover { background: #444; }
+</style>
+
+<div id="keepalive-scene">
+    <h2>Connection Overhead: Keepalive vs New</h2>
+    <div id="connection-line"></div>
+    <div id="client-node" class="endpoint">Client</div>
+    <div id="server-node" class="endpoint">Server</div>
+
+    <div id="p-syn" class="packet-ka syn-packet">SYN</div>
+    <div id="p-synack" class="packet-ka syn-packet">SYN-ACK</div>
+    <div id="p-ack" class="packet-ka syn-packet">ACK</div>
+    <div id="p-data1" class="packet-ka data-packet">REQ 1</div>
+    <div id="p-resp1" class="packet-ka data-packet">RESP 1</div>
+    <div id="p-data2" class="packet-ka data-packet">REQ 2</div>
+    <div id="p-resp2" class="packet-ka data-packet">RESP 2</div>
+
+    <div class="ka-controls">
+        <button class="ka-btn" onclick="runWithoutKeepalive()">No Keepalive</button>
+        <button class="ka-btn" onclick="runWithKeepalive()">With Keepalive</button>
+    </div>
+    <div class="log-panel" id="ka-log"> Waiting to start...</div>
+
+</div>
+
+<script>
+    function kaLog(msg) {
+        const logger = document.getElementById("ka-log");
+        logger.innerHTML += "<div>> " + msg + "</div>";
+        logger.scrollTop = logger.scrollHeight;
+    }
+
+    function resetKA() {
+        document.getElementById("ka-log").innerHTML = "";
+        document.getElementById("connection-line").classList.remove("established");
+        document.querySelectorAll(".packet-ka").forEach(p => {
+            p.style.transition = "none";
+            p.style.opacity = "0";
+            p.style.transform = "translateX(0)";
+        });
+    }
+
+    function animatePacket(id, delay, fromRight) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                const p = document.getElementById(id);
+                p.style.transition = "none";
+                p.style.opacity = "1";
+                p.style.transform = fromRight ? "translateX(340px)" : "translateX(0)";
+
+                setTimeout(() => {
+                    p.style.transition = "transform 0.8s linear, opacity 0.2s";
+                    p.style.transform = fromRight ? "translateX(0)" : "translateX(340px)";
+                }, 50);
+
+                setTimeout(() => {
+                    p.style.opacity = "0";
+                    resolve();
+                }, 900);
+            }, delay);
+        });
+    }
+
+    async function runWithoutKeepalive() {
+        resetKA();
+        kaLog("Starting standard connection (No Keepalive)");
+        // Req 1
+        kaLog("Initiating TCP 3-way handshake...");
+        await animatePacket("p-syn", 0, false);
+        await animatePacket("p-synack", 0, true);
+        await animatePacket("p-ack", 0, false);
+        document.getElementById("connection-line").classList.add("established");
+        kaLog("Connection established. Sending Request 1.");
+        await animatePacket("p-data1", 0, false);
+        await animatePacket("p-resp1", 0, true);
+        document.getElementById("connection-line").classList.remove("established");
+        kaLog("Connection closed. (Delay overhead)");
+
+        // Req 2
+        setTimeout(async () => {
+            kaLog("Initiating new TCP 3-way handshake for Request 2...");
+            await animatePacket("p-syn", 0, false);
+            await animatePacket("p-synack", 0, true);
+            await animatePacket("p-ack", 0, false);
+            document.getElementById("connection-line").classList.add("established");
+            kaLog("Connection established. Sending Request 2.");
+            await animatePacket("p-data2", 0, false);
+            await animatePacket("p-resp2", 0, true);
+            document.getElementById("connection-line").classList.remove("established");
+            kaLog("Done. High latency overhead observed.");
+        }, 1000);
+    }
+
+    async function runWithKeepalive() {
+        resetKA();
+        kaLog("Starting Keepalive connection...");
+        kaLog("Initiating TCP 3-way handshake...");
+        await animatePacket("p-syn", 0, false);
+        await animatePacket("p-synack", 0, true);
+        await animatePacket("p-ack", 0, false);
+        document.getElementById("connection-line").classList.add("established");
+        kaLog("Connection established. Sending Request 1.");
+        await animatePacket("p-data1", 0, false);
+        await animatePacket("p-resp1", 0, true);
+        kaLog("Connection kept alive. Sending Request 2 immediately.");
+        await animatePacket("p-data2", 0, false);
+        await animatePacket("p-resp2", 0, true);
+        kaLog("Done. Minimal latency, fast processing.");
+    }
+</script>
+
+As you can see, negotiating a new connection every time severely penalizes your response times. The more services you have scaling up, the more connections are dropping and reforming.
+
+### Why Keepalive Matters (skip if you are overly familiar with TCP)
+
+To understand this overhead, we have to distinguish between a _request_ and a _connection_. When a client (like another microservice) wants to talk to a backend, it first has to establish a TCP connection via a three-way handshake:
+
+1. **SYN**: Client asks to sync.
+2. **SYN-ACK**: Server acknowledges and asks to sync back.
+3. **ACK**: Client acknowledges the server.
+
+Only _after_ this dance can the actual HTTP data be transmitted. If we close the connection after every single request, we pay this 3-way latency tax over and over again. By utilizing HTTP `Keep-Alive` (or persistent connections), a single TCP connection is kept open and reused for multiple subsequent requests. In the context of `kube-proxy`, `iptables` needs to evaluate rules for _new_ connections. Once a connection is established, Netfilter's `conntrack` (connection tracking) module remembers it, and subsequent packets for that connection bypass the heavy rule traversal. This means if your microservices are properly pooling and keeping connections alive, the theoretical O(n) penalty of `iptables` is paid far less frequently than you might think.
+
+### `iptables` bottleneck math
+
+We have a mechanism in `IPVS` that clearly boasts superior lookup mathematics (O(1) vs O(n)). If it were a problem of mathematics (and in computing, surprisingly, it's not always the case), we'd be looking at a cluster with 1,000 to 5,000 services before we'd see a real issue. And, the choice for a network layer would be as simple as comparing two numbers.
+
+In computer science, **O(n)** means the time taken grows linearly with the number of items. For `iptables`, `n` is the number of services (and their associated endpoints). If you have 10 services, traversing the rule chain is instantaneous. If you have 10,000 services, `kube-proxy` has programmed tens of thousands of iptables rules. When a new packet arrives, the Linux kernel must potentially evaluate it against _all_ of those rules sequentially until it finds a match.
+
+**O(1)**, on the other hand, means constant time. No matter if you have 10 services or 100,000, `IPVS` uses a hash table to find the correct backend route instantly in a single mathematical step.
+
+If you remember from earlier, a statistically typical cluster holds only a handful of nodes and realistically less than 1,000 services. The fact of the matter is that `iptables` processing only truly starts failing the latency sniff test once you surpass the 1,000 to 5,000 service mark. Below those numbers, the CPU processing difference between O(n) and O(1) in the kernel is practically unnoticeable in the face of network I/O overhead. We are debating over single-digit millisecond or even microsecond latency differences.
+
+### What if you didn't have to choose?
+
+Even when you are facing those massive cluster topologies where the O(n) math becomes a real bottleneck, replacing `kube-proxy`'s backend with `IPVS` isn't the magic wand infrastructure people want. But, not to say that there isn't one.
+
+eBPF is an interesting kernel runtime that allows you to run sandboxed programs directly within the Linux kernel space without having to change kernel source code or load kernel modules. Instead of relying on the Netfilter stack to process packets at the network layer, eBPF allows tools like **Cilium** to attach routing logic directly to the socket layer or early in the network interface controller (NIC) packet pipeline.
+
+To put it simply, networking, and specifically in Kubernetes, can be thought of as a mail sorting system inside a city. When traffic comes into a cluster, something has to decide which pod should receive it. Traditionally, this job is done by the Netfilter stack via `kube-proxy`. With `eBPF`, instead of relying on an external application, a program is attached to the kernel that can make routing decisions directly on the packet level.
+
+By the time a packet even reaches the Netfilter stack where `iptables` and `IPVS` live, eBPF has already routed it directly to the correct pod. It radically bypasses the entire traditional networking stack, blowing the performance and observability of both IPVS and iptables completely out of the water.
+
+<style>
+    #ebpf-scene {
+        font-family: monospace;
+        padding: 25px;
+        background-color: #1a1b26;
+        color: #a9b1d6;
+        border: 1px solid #414868;
+        width: 760px;
+        max-width: 100%;
+        box-sizing: border-box;
+        height: 480px;
+        margin: 30px auto;
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    #ebpf-scene h2 {
+        text-align: center;
+        margin-top: 0;
+        color: #7aa2f7;
+        font-size: 20px;
+        border-bottom: 1px solid #414868;
+        padding-bottom: 10px;
+    }
+    .ebpf-node {
+        position: absolute;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        text-align: center;
+        padding: 10px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    #nic-node {
+        width: 120px; height: 60px;
+        background: #24283b; border: 2px solid #565f89;
+        bottom: 60px; left: 320px;
+    }
+    #kernel-box {
+        position: absolute;
+        top: 100px; left: 40px; right: 40px; height: 220px;
+        border: 2px dashed #414868;
+        border-radius: 8px;
+        background: #1f2335;
+        z-index: 1;
+    }
+    .kernel-label {
+        position: absolute; top: 10px; left: 15px; color: #565f89; font-weight: bold;
+    }
+    #netfilter-node {
+        width: 140px; height: 80px;
+        background: #f7768e; color: #1a1b26;
+        top: 130px; left: 80px;
+        z-index: 2;
+    }
+    #ebpf-node {
+        width: 140px; height: 80px;
+        background: #9ece6a; color: #1a1b26;
+        top: 220px; right: 260px;
+        z-index: 2;
+    }
+    #pod-node {
+        width: 120px; height: 60px;
+        background: #7aa2f7; color: #1a1b26;
+        top: 20px; right: 80px;
+        z-index: 2;
+    }
+    .ebpf-packet {
+        position: absolute;
+        width: 60px; height: 30px;
+        background: #e0af68; color: #1a1b26;
+        border-radius: 15px;
+        text-align: center; line-height: 30px; font-weight: bold; font-size: 12px;
+        left: 350px; bottom: 130px; /* Right above NIC */
+        opacity: 0;
+        z-index: 10;
+        transition: transform 1s ease-in-out, opacity 0.2s;
+    }
+    .ebpf-controls {
+        position: absolute;
+        bottom: 20px; left: 20px; right: 20px;
+        display: flex; justify-content: space-between;
+    }
+    .ebpf-btn {
+        padding: 8px 16px; background: #24283b; color: #a9b1d6;
+        border: 1px solid #565f89; border-radius: 4px; cursor: pointer; font-family: inherit; font-weight: bold;
+    }
+    .ebpf-btn:hover { background: #414868; }
+    .ebpf-status {
+        flex-grow: 1; text-align: center; line-height: 35px; color: #ff9e64; font-weight: bold;
+    }
+</style>
+
+<div id="ebpf-scene">
+    <h2>Packet Routing: Netfilter vs eBPF</h2>
+
+    <div id="kernel-box">
+        <div class="kernel-label">Kernel Space</div>
+    </div>
+
+    <div id="nic-node" class="ebpf-node">Network Intf<br>(NIC)</div>
+    <div id="netfilter-node" class="ebpf-node">Netfilter Stack<br>(iptables/IPVS)</div>
+    <div id="ebpf-node" class="ebpf-node">eBPF Hook<br>(e.g. Cilium)</div>
+    <div id="pod-node" class="ebpf-node">Target Pod</div>
+
+    <div id="e-packet" class="ebpf-packet">DATA</div>
+
+    <div class="ebpf-controls">
+        <button class="ebpf-btn" onclick="runTraditional()">Traditional</button>
+        <div id="ebpf-status" class="ebpf-status">Awaiting routing selection...</div>
+        <button class="ebpf-btn" onclick="runeBPF()">eBPF Fast Path</button>
+    </div>
+
+</div>
+
+<script>
+    function resetEBPF() {
+        const p = document.getElementById("e-packet");
+        p.style.transition = "none";
+        p.style.opacity = "0";
+        p.style.transform = "translate(0, 0)";
+
+        document.getElementById("netfilter-node").style.boxShadow = "0 4px 6px rgba(0,0,0,0.3)";
+        document.getElementById("ebpf-node").style.boxShadow = "0 4px 6px rgba(0,0,0,0.3)";
+    }
+
+    function setStatus(msg, color) {
+        const s = document.getElementById("ebpf-status");
+        s.textContent = msg;
+        s.style.color = color;
+    }
+
+    function runTraditional() {
+        resetEBPF();
+        setStatus("1. Packet arrives at NIC", "#a9b1d6");
+        const p = document.getElementById("e-packet");
+
+        setTimeout(() => {
+            p.style.opacity = "1";
+            p.style.transition = "transform 0.8s ease-in-out";
+
+            p.style.transform = "translate(-230px, -165px)";
+            setStatus("2. Traverses Kernel to Netfilter stack", "#f7768e");
+
+            setTimeout(() => {
+                document.getElementById("netfilter-node").style.boxShadow = "0 0 15px #f7768e";
+                setStatus("3. iptables/IPVS evaluates routing rules", "#f7768e");
+
+                setTimeout(() => {
+                    document.getElementById("netfilter-node").style.boxShadow = "0 4px 6px rgba(0,0,0,0.3)";
+                    p.style.transform = "translate(240px, -300px)";
+                    setStatus("4. Forwarded to Target Pod", "#7aa2f7");
+
+                    setTimeout(() => {
+                        p.style.opacity = "0";
+                        setStatus("Traditional routing complete", "#a9b1d6");
+                    }, 800);
+                }, 1200);
+            }, 800);
+        }, 100);
+    }
+
+    function runeBPF() {
+        resetEBPF();
+        setStatus("1. Packet arrives at NIC", "#a9b1d6");
+        const p = document.getElementById("e-packet");
+
+        setTimeout(() => {
+            p.style.opacity = "1";
+            p.style.transition = "transform 0.5s ease-in-out";
+
+            p.style.transform = "translate(40px, -70px)";
+            setStatus("2. eBPF Hook intercepts early!", "#9ece6a");
+
+            setTimeout(() => {
+                document.getElementById("ebpf-node").style.boxShadow = "0 0 15px #9ece6a";
+                setStatus("3. eBPF routing decision made instantly", "#9ece6a");
+
+                setTimeout(() => {
+                    document.getElementById("ebpf-node").style.boxShadow = "0 4px 6px rgba(0,0,0,0.3)";
+                    p.style.transition = "transform 0.7s ease-in-out";
+                    p.style.transform = "translate(240px, -300px)";
+                    setStatus("4. Bypasses Netfilter directly to Pod", "#7aa2f7");
+
+                    setTimeout(() => {
+                        p.style.opacity = "0";
+                        setStatus("eBPF fast path complete", "#a9b1d6");
+                    }, 700);
+                }, 800);
+            }, 500);
+        }, 100);
+    }
+</script>
+
+### The 1% problem
+
+Essentially, the deprecation of `iptables` in favor of more advanced implementations like `IPVS` or eBPF proxies feels like it was designed to cater to the top 1% of Kubernetes users—the hyperscalers, the massive multi-tenant SaaS providers, and the heavily fragmented microservice jungles. For the vast, overwhelming majority of teams running a dozen or so services on a 5-node cluster, migrating the networking layer brings absolutely no tangible real-world benefit and simply adds operational complexity to a stack that is already a jigsaw puzzle blindfolded.
+
+But, if your workload is small enough that the algorithmic complexity of sequential IP filtering is completely irrelevant to you... should you even be running Kubernetes at all?
+
+But I think we'll leave that philosophical crisis for another day.
