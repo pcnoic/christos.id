@@ -4,6 +4,7 @@ title: exotic networking patterns for load balancing that you probably don't nee
 date: 2025-02-23
 last_modified_at: 2025-02-23
 preview: true
+image: /assets/images/ipvs-and-iptables-og.png
 description: Deep dive into IPVS vs iptables for Kubernetes load balancing, exploring when exotic networking patterns actually matter for bare-metal clusters.
 topic: distributed-systems
 tldr: IPVS offers O(1) lookup vs iptables' O(n) for large service counts, but most clusters don't need it. Consider IPVS only if you have 1000+ services or need advanced scheduling algorithms.
