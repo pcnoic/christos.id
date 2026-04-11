@@ -13,6 +13,10 @@ spec:
       labels:
         app: blog
     spec:
+      tolerations:
+        - key: node.kubernetes.io/network-unavailable
+          operator: Exists
+          effect: NoSchedule
       containers:
         - name: blog
           image: blog
