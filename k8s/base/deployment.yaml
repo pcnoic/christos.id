@@ -13,6 +13,8 @@ spec:
       labels:
         app: blog
     spec:
+      imagePullSecrets:
+        - name: regcred
       tolerations:
         - key: node.kubernetes.io/network-unavailable
           operator: Exists
