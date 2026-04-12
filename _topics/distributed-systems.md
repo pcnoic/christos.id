@@ -1,6 +1,6 @@
 ---
 layout: topic
-title: Distributed Systems
+title: distributed systems
 slug: distributed-systems
 description: Deep dives into distributed systems, consensus algorithms, and building reliable infrastructure at scale.
 start_here: New to distributed systems? Start with understanding consensus algorithms and why they matter for building reliable systems.
@@ -14,25 +14,11 @@ further_reading:
     external: true
 ---
 
-## Key points
+## areas of focus
 
 This topic covers the fundamentals and advanced concepts of distributed systems engineering:
 
-- **Consensus Algorithms** - Paxos, Raft, and their practical implementations
-- **Networking Patterns** - Load balancing, service mesh, and exotic networking setups
-- **Reliability Engineering** - Building systems that fail gracefully
-- **Kubernetes Internals** - Deep dives into container orchestration
-
-## Core Concepts
-
-### Consensus & Coordination
-
-Understanding how distributed systems agree on state is fundamental. We explore both theoretical foundations and practical implementations.
-
-### Network Architecture
-
-From basic load balancing to advanced patterns like IPVS and eBPF-based networking.
-
-### Operational Excellence
-
-Building systems is one thing; running them reliably is another. Learn from real-world operational experience.
+- **consensus algorithms** - Paxos, Raft, and their practical implementations
+- **networking patterns** - Load balancing, service mesh, and exotic networking setups
+- **reliability engineering** - Failing gracefully
+- **kubernetes internals** - Deep dives into container orchestration

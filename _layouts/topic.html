@@ -7,11 +7,11 @@ layout: default
 <article class="topic-hub" itemscope itemtype="https://schema.org/CollectionPage">
   <header class="topic-header">
     <h1 itemprop="name">{{ page.title }}</h1>
-    
+
     {% if page.description %}
     <p class="topic-description" itemprop="description">{{ page.description }}</p>
     {% endif %}
-    
+
     <p class="topic-meta">
       <span class="post-count">{{ page.posts | size }} articles</span>
       {% if page.last_modified_at %}
