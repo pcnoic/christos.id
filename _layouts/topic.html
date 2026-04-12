@@ -16,7 +16,7 @@ layout: default
       <span class="post-count">{{ page.posts | size }} articles</span>
       {% if page.last_modified_at %}
       <time datetime="{{ page.last_modified_at | date_to_xmlschema }}" itemprop="dateModified">
-        Last updated: {{ page.last_modified_at | date: site.theme_config.date_format }}
+        last updated: {{ page.last_modified_at | date: site.theme_config.date_format }}
       </time>
       {% endif %}
     </p>

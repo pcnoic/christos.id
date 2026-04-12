@@ -48,4 +48,4 @@ I don't monitor my social media. If you'd like to reach me, email me at [c@chris
 
 ### disclaimer
 
-This page is mostly for SEO. I don't like to talk about myself, especially in that way. But there's no escaping from the algorithm.
+This page is mostly for SEO. I don't like to talk about myself, especially in this way. But, there's no escaping from the algorithm.
