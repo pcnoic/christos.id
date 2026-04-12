@@ -36,7 +36,7 @@ layout: default
   {% assign topic_posts = site.posts | where: "topic", page.slug %}
   {% if topic_posts.size > 0 %}
   <section class="topic-posts">
-    <h2>Articles in this topic</h2>
+    <h2>articles in this topic</h2>
     <ul class="topic-post-list">
       {% for post in topic_posts %}
       <li>
