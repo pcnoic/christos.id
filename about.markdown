@@ -9,13 +9,6 @@ description: Chris Alexiou - Ops person, software janitor, and engineering pract
 
 I'm an ops person and software janitor currently building tools for engineering teams.
 
-### experience
-
-I've worked across the spectrum of engineering organizations:
-
-- **enterprise**: [Google](https://google.com) (interned), [Bloomreach](https://bloomreach.com)
-- **startups**: [Comidor](https://comidor.com), [Flightcast](https://flightcast.com), [Adia Health](https://adia.ai), [Budibase](https://budibase.com), [Alfaview](https://alfaview.com), [Clutch](https://clutch.com)
-
 ### founded
 
 - **Podbeam** - A podcasting platform backed by [Pioneer](https://pioneer.app), amongst others
