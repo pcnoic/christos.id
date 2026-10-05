@@ -16,6 +16,22 @@
   --code-bg: #f4f4f4;
   --code-text: #d63384;
   --selection: rgba(0, 102, 255, 0.15);
+  --syntax-comment: #59636e;
+  --syntax-keyword: #b42332;
+  --syntax-blue: #0054a6;
+  --syntax-purple: #6741a5;
+  --syntax-green: #176b35;
+  --syntax-string: #174f88;
+  --syntax-deleted: #8f1d27;
+  --syntax-deleted-bg: #ffe6e8;
+  --syntax-inserted: #155b2d;
+  --syntax-inserted-bg: #e5f6e9;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
 }
 
 // -------------- DARK THEME -------------- //
@@ -31,6 +47,16 @@
   --code-bg: #1a1a1a;
   --code-text: #ff7b72;
   --selection: rgba(77, 159, 255, 0.25);
+  --syntax-comment: #a1abb5;
+  --syntax-keyword: #ff7b86;
+  --syntax-blue: #80baff;
+  --syntax-purple: #c4a6ff;
+  --syntax-green: #7bd997;
+  --syntax-string: #a6d6ff;
+  --syntax-deleted: #ffb3b8;
+  --syntax-deleted-bg: #482126;
+  --syntax-inserted: #a4e8b5;
+  --syntax-inserted-bg: #183b25;
 }
 
 body[a="dark"] {
@@ -60,8 +86,8 @@ html {
 }
 
 body {
-  font-family: Monaco, "Lucida Console", Consolas, monospace;
-  font-size: 14px;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
   line-height: 1.6;
   color: var(--text-primary);
   background: var(--bg-primary);
@@ -70,9 +96,8 @@ body {
 
 // -------------- HOME PAGE: FIT TO SCREEN -------------- //
 body.home {
-  overflow: hidden;
-  height: 100vh;
-  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
 
@@ -81,21 +106,20 @@ body.home {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    padding: var(--space-4) 0;
   }
 
   .w {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 2rem 3rem;
-    max-height: 95vh;
-    max-width: 90vw;
-    width: auto;
+    padding: var(--space-8) 3rem;
+    max-width: 900px;
+    width: 90vw;
   }
 
   header {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-6);
     
     h1 {
       margin: 0 0 0.25rem 0;
@@ -110,17 +134,17 @@ body.home {
   }
 
   li {
-    margin: 0.4em 0;
+    margin: var(--space-2) 0;
   }
 
   // Nested lists more compact
   ul ul {
-    margin: 0.25em 0;
+    margin: var(--space-1) 0;
     padding-left: 1.25em;
   }
 
   ul ul li {
-    margin: 0.2em 0;
+    margin: var(--space-1) 0;
   }
 
   // Post list compact
@@ -129,15 +153,15 @@ body.home {
   }
 
   .post-list li {
-    margin: 0.3em 0;
+    margin: var(--space-1) 0;
     display: flex;
     justify-content: space-between;
     gap: 1em;
   }
 
   .sub-section {
-    margin: 0.25em 0 0 0.5em;
-    padding-left: 0.75em;
+    margin: var(--space-1) 0 0 var(--space-2);
+    padding-left: var(--space-3);
     border-left: 2px solid var(--border);
   }
 
@@ -147,12 +171,12 @@ body.home {
   }
 
   .sub-section li {
-    margin: 0.2em 0;
+    margin: var(--space-1) 0;
   }
 
   .social-monitor-notice {
-    margin-top: 1.5rem;
-    padding-top: 1rem;
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
     border-top: 1px solid var(--border);
     font-size: 0.9em;
     text-align: center;
@@ -160,23 +184,14 @@ body.home {
 
   // Mobile: allow scrolling since screen is too small
   @media (max-width: 768px) {
-    overflow: auto;
-    overflow-x: hidden;
-    height: auto;
-    min-height: 100vh;
-    min-height: 100dvh;
-
     .page-content {
-      overflow: visible;
       align-items: flex-start;
-      padding-top: 1.5rem;
-      padding-bottom: 1.5rem;
+      padding-top: var(--space-6);
+      padding-bottom: var(--space-6);
     }
 
     .w {
-      overflow: visible;
-      max-height: none;
-      padding: 1rem 1.5rem;
+      padding: var(--space-4) var(--space-6);
     }
   }
 }
@@ -228,16 +243,22 @@ a:hover {
   border-bottom-color: var(--accent);
 }
 
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 // -------------- REGULAR PAGE LAYOUT -------------- //
 .w {
   max-width: 640px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: var(--space-8) var(--space-8);
 }
 
 @media (max-width: 600px) {
   .w {
-    padding: 2rem 1.5rem;
+    padding: var(--space-8) var(--space-6);
   }
 }
 
@@ -267,7 +288,7 @@ ul ul, ol ul, ul ol, ol ol {
 
 // -------------- CODE -------------- //
 code {
-  font-family: Monaco, "Lucida Console", Consolas, monospace;
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
   font-size: 0.9em;
   background: var(--code-bg);
   color: var(--code-text);
@@ -441,61 +462,56 @@ article {
   border-radius: 0;
 }
 
-.highlight .c { color: #6a737d; font-style: italic; }
-.highlight .k { color: #d73a49; }
-.highlight .o { color: #d73a49; }
-.highlight .cm { color: #6a737d; font-style: italic; }
-.highlight .cp { color: #6a737d; }
-.highlight .c1 { color: #6a737d; font-style: italic; }
-.highlight .cs { color: #6a737d; }
-.highlight .gd { color: #b31d28; background-color: #ffeef0; }
+.highlight .c { color: var(--syntax-comment); font-style: italic; }
+.highlight .k { color: var(--syntax-keyword); }
+.highlight .o { color: var(--syntax-keyword); }
+.highlight .cm { color: var(--syntax-comment); font-style: italic; }
+.highlight .cp { color: var(--syntax-comment); }
+.highlight .c1 { color: var(--syntax-comment); font-style: italic; }
+.highlight .cs { color: var(--syntax-comment); }
+.highlight .gd { color: var(--syntax-deleted); background-color: var(--syntax-deleted-bg); }
 .highlight .ge { font-style: italic; }
-.highlight .gh { color: #005cc5; font-weight: bold; }
-.highlight .gi { color: #22863a; background-color: #f0fff4; }
-.highlight .gp { color: #6a737d; }
+.highlight .gh { color: var(--syntax-blue); font-weight: bold; }
+.highlight .gi { color: var(--syntax-inserted); background-color: var(--syntax-inserted-bg); }
+.highlight .gp { color: var(--syntax-comment); }
 .highlight .gs { font-weight: bold; }
-.highlight .gu { color: #6f42c1; }
-.highlight .kc { color: #005cc5; }
-.highlight .kd { color: #d73a49; }
-.highlight .kn { color: #d73a49; }
-.highlight .kp { color: #005cc5; }
-.highlight .kr { color: #d73a49; }
-.highlight .kt { color: #005cc5; }
-.highlight .m { color: #005cc5; }
-.highlight .s { color: #032f62; }
-.highlight .na { color: #6f42c1; }
-.highlight .nb { color: #005cc5; }
-.highlight .nc { color: #6f42c1; }
-.highlight .no { color: #005cc5; }
-.highlight .nd { color: #6f42c1; }
-.highlight .ne { color: #6f42c1; }
-.highlight .nf { color: #6f42c1; }
-.highlight .nl { color: #005cc5; }
-.highlight .nn { color: #6f42c1; }
-.highlight .nt { color: #22863a; }
-.highlight .nv { color: #005cc5; }
-.highlight .ow { color: #d73a49; }
-.highlight .w { color: #6a737d; }
-.highlight .mf { color: #005cc5; }
-.highlight .mh { color: #005cc5; }
-.highlight .mi { color: #005cc5; }
-.highlight .mo { color: #005cc5; }
-.highlight .sb { color: #032f62; }
-.highlight .sc { color: #032f62; }
-.highlight .sd { color: #032f62; }
-.highlight .s2 { color: #032f62; }
-.highlight .se { color: #005cc5; }
-.highlight .sh { color: #032f62; }
-.highlight .si { color: #005cc5; }
-.highlight .sx { color: #032f62; }
-.highlight .sr { color: #032f62; }
-.highlight .s1 { color: #032f62; }
-.highlight .ss { color: #005cc5; }
-.highlight .bp { color: #6a737d; }
-.highlight .vc { color: #005cc5; }
-.highlight .vg { color: #005cc5; }
-.highlight .vi { color: #005cc5; }
-.highlight .il { color: #005cc5; }
+.highlight .gu,
+.highlight .na,
+.highlight .nc,
+.highlight .nd,
+.highlight .ne,
+.highlight .nf,
+.highlight .nn { color: var(--syntax-purple); }
+.highlight .kc,
+.highlight .kp,
+.highlight .kt,
+.highlight .m,
+.highlight .nb,
+.highlight .no,
+.highlight .nl,
+.highlight .nv,
+.highlight .se,
+.highlight .si,
+.highlight .ss,
+.highlight .vc,
+.highlight .vg,
+.highlight .vi,
+.highlight .il { color: var(--syntax-blue); }
+.highlight .kd,
+.highlight .kn,
+.highlight .kr,
+.highlight .ow { color: var(--syntax-keyword); }
+.highlight .s,
+.highlight .sb,
+.highlight .sc,
+.highlight .sd,
+.highlight .s2,
+.highlight .sh,
+.highlight .sx,
+.highlight .sr,
+.highlight .s1 { color: var(--syntax-string); }
+.highlight .nt { color: var(--syntax-green); }
+.highlight .w { color: var(--syntax-comment); }
 
 div.highlighter-rouge code {
   display: block;

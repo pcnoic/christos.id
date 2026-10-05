@@ -1,7 +1,12 @@
 entries:
   - title: currently building tools for engineering teams
 
-  - title: 'founded: <b>Podbeam</b>, a podcasting platform backed by <a href="https://pioneer.app">Pioneer</a>, amongst others and <b>Garret Street</b>, a behavioral analytics engine for high-volume retail trading data. Acquired in 2025.</i>'
+  - title: founded
+    entries:
+      - title: Podbeam
+        description: a podcasting platform backed by Pioneer, amongst others
+      - title: Garret Street
+        description: a behavioral analytics engine for high-volume retail trading data, acquired in 2025
 
   - title: podcasts (through <a href="https://darkpodcasting.com">Dark Studios</a>)
     entries:
