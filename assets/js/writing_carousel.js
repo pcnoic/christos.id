@@ -3,6 +3,7 @@
 
   document.querySelectorAll("[data-carousel]").forEach(function (carousel) {
     const track = carousel.querySelector(".writing-carousel-track");
+    const previous = carousel.querySelector(".writing-carousel-previous");
     const next = carousel.querySelector(".writing-carousel-next");
     const status = carousel.querySelector(".writing-carousel-status");
     const cards = Array.from(track.querySelectorAll(".writing-card"));
@@ -15,9 +16,18 @@
       const end = Math.min((page + 1) * pageSize, cards.length);
       track.style.transform = "translateX(-" + page * 100 + "%)";
       status.textContent = start + "–" + end + " of " + cards.length;
+      previous.disabled = page === 0;
       next.disabled = page >= totalPages - 1;
+      previous.setAttribute("aria-label", previous.disabled ? "No previous articles" : "Show previous articles");
       next.setAttribute("aria-label", next.disabled ? "No more articles" : "Show next articles");
     }
+
+    previous.addEventListener("click", function () {
+      if (page > 0) {
+        page -= 1;
+        render();
+      }
+    });
 
     next.addEventListener("click", function () {
       const totalPages = Math.ceil(cards.length / pageSize);

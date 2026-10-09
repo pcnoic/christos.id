@@ -20,8 +20,5 @@ entries:
     post_list:
       carousel: true
 
-  - title: "writing now: working on tools for engineers"
-    class: "writing-now"
-
   - title: 'I don''t monitor my social media. If you''d like to reach me, email me at <a href="mailto:c@christos.id">c@christos.id</a>.'
     class: "social-monitor-notice"

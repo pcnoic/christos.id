@@ -206,6 +206,7 @@ body.home {
     font-size: 0.78em;
   }
 
+  .writing-carousel-previous,
   .writing-carousel-next {
     border: 1px solid var(--border);
     border-radius: 999px;
@@ -216,19 +217,22 @@ body.home {
     font: inherit;
   }
 
+  .writing-carousel-previous:hover:not(:disabled),
   .writing-carousel-next:hover:not(:disabled) {
     border-color: var(--accent);
     color: var(--accent);
   }
 
+  .writing-carousel-previous:disabled,
   .writing-carousel-next:disabled {
     cursor: default;
     opacity: 0.35;
   }
 
-  .writing-now {
-    color: var(--text-muted);
-    font-size: 0.9em;
+  .current-focus {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.95em;
   }
 
   .writing-card {
