@@ -159,6 +159,132 @@ body.home {
     gap: 1em;
   }
 
+  .writing-section {
+    margin-top: var(--space-3);
+  }
+
+  .writing-carousel {
+    margin: var(--space-3) 0 var(--space-6);
+    max-width: 38rem;
+  }
+
+  .writing-card-stack {
+    position: relative;
+    min-height: 11rem;
+    isolation: isolate;
+  }
+
+  .writing-card {
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background: var(--bg-secondary);
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.08);
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.35s ease, opacity 0.35s ease, z-index 0.35s;
+  }
+
+  .writing-card.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .writing-card.is-next {
+    z-index: -1;
+    opacity: 0.9;
+    transform: translate(0.65rem, 0.65rem) rotate(2deg);
+  }
+
+  .writing-card.is-next-next {
+    z-index: -2;
+    opacity: 0.55;
+    transform: translate(1.25rem, 1.25rem) rotate(-2deg);
+  }
+
+  .writing-card-link {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    min-height: 11rem;
+    padding: var(--space-6);
+    color: var(--text-primary);
+    border: 0;
+  }
+
+  .writing-card-link:hover {
+    border: 0;
+  }
+
+  .writing-card-kicker {
+    color: var(--text-muted);
+    font-size: 0.78em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .writing-card-title {
+    max-width: 85%;
+    margin-top: var(--space-3);
+    font-size: 1.25em;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .writing-card-description {
+    margin-top: var(--space-2);
+    color: var(--text-secondary);
+    font-size: 0.9em;
+  }
+
+  .writing-card-arrow {
+    position: absolute;
+    right: var(--space-6);
+    bottom: var(--space-4);
+    color: var(--accent);
+    font-size: 1.4em;
+  }
+
+  .writing-carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 8rem;
+    margin: var(--space-4) auto 0;
+  }
+
+  .writing-carousel-button {
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    cursor: pointer;
+    font: inherit;
+    line-height: 1;
+  }
+
+  .writing-carousel-button:hover,
+  .writing-carousel-button:focus-visible {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .writing-carousel-status {
+    color: var(--text-muted);
+    font-size: 0.8em;
+  }
+
+  .writing-see-all {
+    display: block;
+    margin-top: var(--space-3);
+    text-align: center;
+    font-size: 0.85em;
+  }
+
   .sub-section {
     margin: var(--space-1) 0 0 var(--space-2);
     padding-left: var(--space-3);
@@ -192,6 +318,11 @@ body.home {
 
     .w {
       padding: var(--space-4) var(--space-6);
+    }
+
+    .writing-card-stack,
+    .writing-card-link {
+      min-height: 10rem;
     }
   }
 }

@@ -1,28 +1,21 @@
 entries:
-  - title: currently building tools for engineering teams
-
   - title: founded
     entries:
       - title: Podbeam
         description: a podcasting platform backed by Pioneer, amongst others
-      - title: Garret Street
-        description: a behavioral analytics engine for high-volume retail trading data, acquired in 2025
+      - title: <a href="https://garretstreet.com">Garret Street</a>
+        description: a behavioral analytics engine for high-volume retail trading data
 
-  - title: podcasts (through <a href="https://darkpodcasting.com">Dark Studios</a>)
+  - title: podcasts (with <a href="https://darkpodcasting.com">Dark Studios</a>)
     entries:
       - title: Fabulas de Machina
         url: https://fabulasdemachina.com
       - title: The Capital Archive
         url: https://thecapitalarchive.org
 
-  - title: topics
-    entries:
-      - title: distributed systems
-        url: /topics/distributed-systems/
-      - title: engineering culture
-        url: /topics/engineering-culture/
-
   - title: writing
+    class: "writing-section"
+    carousel: true
     post_list:
       limit: 10
       show_more: true

@@ -21,7 +21,32 @@
   {%-assign limit_exceeded = false-%}
 {%-endif-%}
 
-{%- if posts.size > 0 -%}
+{%- if posts.size > 0 and include.carousel -%}
+  <div class="writing-carousel" data-writing-carousel>
+    <div class="writing-card-stack" aria-live="polite">
+      {%- for post in posts limit: include.limit -%}
+        <article class="writing-card" data-writing-card>
+          <a href="{{ post.url | relative_url }}" class="writing-card-link">
+            <span class="writing-card-kicker">{{ post.date | date: site.theme_config.date_format }}</span>
+            <span class="writing-card-title">{{ post.title | downcase }}</span>
+            {%- if post.description -%}
+              <span class="writing-card-description">{{ post.description }}</span>
+            {%- endif -%}
+            <span class="writing-card-arrow" aria-hidden="true">↗</span>
+          </a>
+        </article>
+      {%- endfor -%}
+    </div>
+    <div class="writing-carousel-controls">
+      <button type="button" class="writing-carousel-button" data-writing-previous aria-label="Previous post">←</button>
+      <span class="writing-carousel-status" data-writing-status></span>
+      <button type="button" class="writing-carousel-button" data-writing-next aria-label="Next post">→</button>
+    </div>
+    {%- if include.show_more and limit_exceeded -%}
+      <a href="{{ include.show_more_url }}" class="writing-see-all">{{ include.show_more_text | default: "Show more..." }}</a>
+    {%- endif -%}
+  </div>
+{%- elsif posts.size > 0 -%}
   <ul class="post-list">
     {%- for post in posts limit: include.limit -%}
         <li>
