@@ -16,7 +16,7 @@ entries:
 
   - title: writing
     class: "writing-section"
-    carousel: true
+    card_grid: true
     post_list:
       limit: 10
       show_more: true
