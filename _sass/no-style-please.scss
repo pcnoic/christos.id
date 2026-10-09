@@ -171,6 +171,66 @@ body.home {
     max-width: 52rem;
   }
 
+  .writing-carousel {
+    max-width: 52rem;
+    margin: var(--space-3) 0 var(--space-6);
+  }
+
+  .writing-carousel-viewport {
+    overflow: hidden;
+  }
+
+  .writing-carousel-track {
+    display: flex;
+    flex-wrap: nowrap;
+    max-width: none;
+    margin: 0;
+    gap: var(--space-4);
+    transition: transform 0.35s ease;
+  }
+
+  .writing-carousel-track .writing-card {
+    flex: 0 0 calc((100% - (2 * var(--space-4))) / 3);
+  }
+
+  .writing-carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+
+  .writing-carousel-status {
+    color: var(--text-muted);
+    font-size: 0.78em;
+  }
+
+  .writing-carousel-next {
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .writing-carousel-next:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .writing-carousel-next:disabled {
+    cursor: default;
+    opacity: 0.35;
+  }
+
+  .writing-now {
+    color: var(--text-muted);
+    font-size: 0.9em;
+  }
+
   .writing-card {
     border: 1px solid var(--border);
     border-radius: 0.75rem;
@@ -275,9 +335,89 @@ body.home {
       grid-template-columns: 1fr;
     }
 
+    .writing-carousel-track .writing-card {
+      flex-basis: 100%;
+    }
+
     .writing-card-link {
       min-height: 10rem;
     }
+  }
+}
+
+// -------------- WRITING PAGE -------------- //
+.writing-page .w {
+  max-width: 980px;
+}
+
+.writing-page .writing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: var(--space-3) 0 var(--space-6);
+}
+
+.writing-page .writing-card {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: var(--bg-secondary);
+  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.08);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.writing-page .writing-card-link {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  min-height: 12rem;
+  height: 100%;
+  padding: var(--space-4);
+  color: var(--text-primary);
+  border: 0;
+}
+
+.writing-page .writing-card-link:hover {
+  border: 0;
+}
+
+.writing-page .writing-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.12);
+  transform: translateY(-0.15rem);
+}
+
+.writing-page .writing-card-kicker {
+  color: var(--text-muted);
+  font-size: 0.78em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.writing-page .writing-card-title {
+  margin-top: var(--space-3);
+  font-size: 1.05em;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.writing-page .writing-card-description {
+  margin-top: var(--space-2);
+  color: var(--text-secondary);
+  font-size: 0.9em;
+}
+
+.writing-page .writing-card-arrow {
+  position: absolute;
+  right: var(--space-4);
+  bottom: var(--space-3);
+  color: var(--accent);
+  font-size: 1.2em;
+}
+
+@media (max-width: 768px) {
+  .writing-page .writing-grid {
+    grid-template-columns: 1fr;
   }
 }
 

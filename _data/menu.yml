@@ -14,14 +14,14 @@ entries:
       - title: The Capital Archive
         url: https://thecapitalarchive.org
 
-  - title: writing
+  - title: <a href="/writing.html">writing</a>
     class: "writing-section"
     card_grid: true
     post_list:
-      limit: 10
-      show_more: true
-      show_more_text: "see all posts..."
-      show_more_url: /archive.html
+      carousel: true
+
+  - title: "writing now: working on tools for engineers"
+    class: "writing-now"
 
   - title: 'I don''t monitor my social media. If you''d like to reach me, email me at <a href="mailto:c@christos.id">c@christos.id</a>.'
     class: "social-monitor-notice"

@@ -21,7 +21,30 @@
   {%-assign limit_exceeded = false-%}
 {%-endif-%}
 
-{%- if posts.size > 0 and include.grid -%}
+{%- if posts.size > 0 and include.grid and include.carousel -%}
+  <div class="writing-carousel" data-carousel>
+    <div class="writing-carousel-viewport">
+      <div class="writing-grid writing-carousel-track">
+        {%- for post in posts -%}
+          <article class="writing-card">
+            <a href="{{ post.url | relative_url }}" class="writing-card-link">
+              <span class="writing-card-kicker">{{ post.date | date: site.theme_config.date_format }}</span>
+              <span class="writing-card-title">{{ post.title | downcase }}</span>
+              {%- if post.description -%}
+                <span class="writing-card-description">{{ post.description }}</span>
+              {%- endif -%}
+              <span class="writing-card-arrow" aria-hidden="true">↗</span>
+            </a>
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+    <div class="writing-carousel-controls">
+      <span class="writing-carousel-status" aria-live="polite">1–3 of {{ posts.size }}</span>
+      <button class="writing-carousel-next" type="button" aria-label="Show next articles">→</button>
+    </div>
+  </div>
+{%- elsif posts.size > 0 and include.grid -%}
   <div class="writing-grid">
     {%- for post in posts limit: include.limit -%}
       <article class="writing-card">
