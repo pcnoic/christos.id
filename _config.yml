@@ -70,6 +70,7 @@ exclude:
   - seo.md
   - Gemfile
   - Gemfile.lock
-  - Dockerfile
+  - wrangler.jsonc
+  - node_modules
   - Rakefile
   - README.md

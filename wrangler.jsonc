@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "christos-id",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./_site",
+    "not_found_handling": "404-page"
+  },
+  "routes": [
+    { "pattern": "christos.id", "custom_domain": true }
+  ]
+}
